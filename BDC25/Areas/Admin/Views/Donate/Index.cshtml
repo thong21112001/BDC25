@@ -1,0 +1,75 @@
+﻿@model List<Model.EF.DONATE>
+
+@using Model.EF;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    BDC25DbContext db = new BDC25DbContext();
+    var ListDonate = (List<Model.EF.DONATE>)ViewBag.ListFile;
+    int stt = 0;
+}
+
+@section header{
+    <div class="d-flex justify-content-between">
+        <div>
+            Danh sách ủng hộ
+        </div>
+
+        @using (Html.BeginForm("Index", "Donate", FormMethod.Get))
+        {
+            <div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                    <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control bg-light border-0 small" placeholder="Tìm kiếm..."
+                           aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tiêu Đề</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col">Type</th>
+            <th scope="col">Chức năng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ListDonate)    //Model đại dienj cho NEWS
+        {
+            stt++;
+            <tr id="row_@item.IDDonate">
+                <td>@stt</td>
+                <td>@item.TieuDe</td>
+                <td>@(item.AnHien?"Hiển thị":"Ẩn")</td>
+                <td>@item.Type</td>
+                <td>
+                    <a class="btn btn-warning" href="/Admin/Donate/Edit/@item.IDDonate">Sửa</a>
+                   
+                    @Html.ActionLink("Download", "Download", new { fileName = Url.Content(item.File) }, new { @class = "btn btn-success" })
+                   
+                    @Ajax.ActionLink("Xóa", "Delete", new { @id = item.IDDonate }, new AjaxOptions
+                    {
+                       Confirm = "Bạn có muốn xóa trường: " + item.TieuDe + " có ID = " + item.IDDonate,
+                       OnComplete = "$('#row_" + @item.IDDonate + "').remove()",
+                       HttpMethod = "Delete"
+                    }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    @*Chuyển tới trang Create của User trong UserController*@
+    @Html.ActionLink("Thêm mới danh sách", "Create", null, new { @class = "btn btn-primary" })
+</div>

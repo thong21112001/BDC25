@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section cssPage{
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/flatly/bootstrap.min.css">
+    <link href="~/assets/User/CSS/galarry.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/owl.carousel2@2.2.2/dist/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+          integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+}
+
+@section scrFile{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/owl.carousel2@2.2.2/dist/owl.carousel.min.js"></script>
+    <script src="~/assets/User/JS/gallary.js"></script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251023-1']);
+        _gaq.push(['_setDomainName', 'jqueryscript.net']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    <script>
+        try {
+            fetch(new Request("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", { method: 'HEAD', mode: 'no-cors' })).then(function (response) {
+                return true;
+            }).catch(function (e) {
+                var carbonScript = document.createElement("script");
+                carbonScript.src = "//cdn.carbonads.com/carbon.js?serve=CK7DKKQU&placement=wwwjqueryscriptnet";
+                carbonScript.id = "_carbonads_js";
+                document.getElementById("carbon-block").appendChild(carbonScript);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    </script>
+}
+
+@section slideEndFoo{
+    <div class="slide-facebook">
+        <div class="slide-facebook_btop">
+            <img class="img-on-bot" src="~/assets/User/img/backtop.png" alt="">
+        </div>
+    </div>
+}
+
+<div class="link-url">
+    <a href="/trang-chu">Trang chủ</a>
+    <span>/</span>
+    <a href="#">Cẩm nang video</a>
+</div>
+
+<!-- Home-7 -->
+<div class="container-home-seven">
+    <div class="container-slide-seven">
+        <div class="slide-home-seven">
+            <div class="row">
+                <div class="col-lg-12 my-auto">
+                    <!-- player wrapper -->
+                    <div class="col-lg-10 mx-auto py-4">
+                        <div class="d-flex align-items-center justify-content-center mb-1">
+                            <span style="font-size:16px; color:red; text-transform:uppercase; font-weight:bold;">Hãy F5 lại trang nếu như bị lỗi nhỏ màn hình</span>
+                        </div>
+
+                        <div class="embed__container">
+                            <div id="player"></div>
+                        </div>
+
+                        <div class="carousel__wrap mt-3">
+                            <div>
+                                <span class="title_span">Cẩm nang video nuôi mèo</span>
+                            </div>
+                            <div class="owl-carousel">
+                                <div data-video="TrdAgBYrqVc" class="item video-thumb active">
+                                    <img src="https://img.youtube.com/vi/TrdAgBYrqVc/hqdefault.jpg" />
+                                </div>
+                                <div data-video="6EnZxxOWdnw" class="item video-thumb">
+                                    <img src="https://img.youtube.com/vi/6EnZxxOWdnw/hqdefault.jpg" />
+                                </div>
+                                <div data-video="n4aCnNVeTdE" class="item video-thumb">
+                                    <img src="https://img.youtube.com/vi/n4aCnNVeTdE/hqdefault.jpg" />
+                                </div>
+                                <div data-video="K2-KP9gVdbg" class="item video-thumb">
+                                    <img src="https://img.youtube.com/vi/K2-KP9gVdbg/hqdefault.jpg" />
+                                </div>
+                                <div data-video="18cpuTAJAPk" class="item video-thumb">
+                                    <img src="https://img.youtube.com/vi/18cpuTAJAPk/hqdefault.jpg" />
+                                </div>
+                                <div data-video="KWREGODdaR8" class="item video-thumb">
+                                    <img src="https://img.youtube.com/vi/KWREGODdaR8/hqdefault.jpg" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel__wrap mt-3">
+                            <div>
+                                <span class="title_span">Cẩm nang video nuôi chó</span>
+                            </div>
+                            <div class="owl-carousel">
+                                <div data-video="PlZQFkDwEAY" class="item video-thumb active">
+                                    <img src="https://img.youtube.com/vi/PlZQFkDwEAY/hqdefault.jpg" />
+                                </div>
+                                <div data-video="3-vMdtuXD58" class="item video-thumb">
+                                    <img src="https://img.youtube.com/vi/3-vMdtuXD58/hqdefault.jpg" />
+                                </div>
+                                <div data-video="f2ny7W-zq7c" class="item video-thumb">
+                                    <img src="https://img.youtube.com/vi/f2ny7W-zq7c/hqdefault.jpg" />
+                                </div>
+                                <div data-video="S8qzIngUR8I" class="item video-thumb">
+                                    <img src="https://img.youtube.com/vi/S8qzIngUR8I/hqdefault.jpg" />
+                                </div>
+                                <div data-video="I7HT6EWH1zk" class="item video-thumb">
+                                    <img src="https://img.youtube.com/vi/I7HT6EWH1zk/hqdefault.jpg" />
+                                </div>
+                                <div data-video="lMhTEUTrCR8" class="item video-thumb">
+                                    <img src="https://img.youtube.com/vi/lMhTEUTrCR8/hqdefault.jpg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

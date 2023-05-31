@@ -1,0 +1,709 @@
+﻿@model Model.EF.COMMUNITY
+@using Model.EF;
+
+@{
+    ViewBag.Title = "PostUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BDC25DbContext db = new BDC25DbContext();
+
+    var loai = db.COMMUNITies.Find(ViewBag.IDPostUser);
+    var tag = db.TAGS_COMMUNITY.Find(loai.IDTagsCommunity);
+    var UrlTag = "/danh-sach-bai-cong-dong/" + tag.UrlTitle + "-" + tag.IDTagsCommunity;
+
+    var UsWeb = db.USERWEBs.Find(loai.IDUser);
+    var listPostLienQuan = (List<Model.EF.COMMUNITY>)ViewBag.ListPostLienQuan;
+    var listLikePost = (List<Model.EF.COMMUNITY>)ViewBag.ListLikePost;
+    string checkUs = ViewBag.UserN;
+    int countCMT = (int)ViewBag.AllCMT;
+    int IDUserLogin = 0;
+    if (checkUs != null)
+    {
+        IDUserLogin = (int)ViewBag.User;
+    }
+
+    var listCMT = (List<Model.EF.COMMENT>)ViewBag.ListCMT;
+}
+
+@section cssPage{
+    <link href="~/assets/User/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/User/CSS/owl.carousel.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="plugins/jquery.mb.YTPlayer-3.1.12/jquery.mb.YTPlayer.css">
+    <link href="~/assets/User/CSS/postUs7.css" rel="stylesheet" />
+    <link href="~/assets/User/CSS/post_responsive.css" rel="stylesheet" />
+}
+
+@section scrFile{
+    <script src="~/assets/User/JS/Alert.js"></script>
+    @*Bình luận*@
+    <script>
+        $(document).ready(function () {
+            $("#myCmt").click(function () {
+                var text = $("#cmt_text").val(); // Get the value of the textarea
+                var idPost = @Model.IDCommunity;
+                $.ajax({
+                    url: '@Url.Action("CommentPost", "Community")', // Set the URL of the controller action
+                    type: 'POST', // Use HTTP POST method
+                    data: { cmt: text, postId: idPost }, // Set the "cmt" parameter to the value of the textarea
+                    success: function (result) {
+                        document.getElementById("listCmt").scrollIntoView();
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.getElementById("AlertBox").scrollIntoView();   //Sau khi click button like hoặc dislike thì nó sẽ nhảy tới cái này khỏi kéo xuống
+    </script>
+
+    <script src="~/assets/User/JS/popUp1.js"></script>
+
+    @*Trả lời bl*@
+    <script>
+        var id = 0  //Khai báo cái này bằng 0
+        $(document).ready(function () {
+            $('.cmtRepBtn').on('click', function () {
+                document.getElementById("popupForm").style.display = "block";
+                id = $(this).attr("data-id");   //lấy id comment thông qua button reply
+            });
+        });
+
+        $(document).ready(function () {
+            $("#submitButton").click(function () {
+                var textRep = $("#cmtRep").val();
+                var idPost = @Model.IDCommunity;
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ReplyCmt", "Community")',
+                    data: { cmt: textRep, idCmt: id, postID: idPost }, // Set the "cmt" parameter to the value of the textarea
+                    success: function (result) {
+                        document.getElementById("popupForm").style.display = "none";
+                        document.getElementById("listCmt").scrollIntoView();
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+
+    @*Chỉnh sủa*@
+    <script>
+        var id = 0  //Khai báo cái này bằng 0
+        $(document).ready(function () {
+            $('.editCmt').on('click', function () {
+                document.getElementById("popupFormEdit").style.display = "block";
+                id = $(this).attr("data-id");   //lấy id comment thông qua button reply
+            });
+        });
+
+        $(document).ready(function () {
+            $("#subEditBtn").click(function () {
+                var textRep = $("#cmtEdit").val();
+                var idPost = @Model.IDCommunity;
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("EditCmt", "Community")',
+                    data: { cmt: textRep, idCmt: id, postID: idPost }, // Set the "cmt" parameter to the value of the textarea
+                    success: function (result) {
+                        alert("Sửa bình luận thành công !!!");
+                        document.getElementById("popupFormEdit").style.display = "none";
+                        document.getElementById("listCmt").scrollIntoView();
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+
+    @*Chỉnh sủa sub nhỏ*@
+    <script>
+        var id = 0  //Khai báo cái này bằng 0
+        $(document).ready(function () {
+            $('.editCmtSub').on('click', function () {
+                document.getElementById("popupFormSubEdit").style.display = "block";
+                id = $(this).attr("data-id");   //lấy id comment thông qua button reply
+            });
+        });
+
+        $(document).ready(function () {
+            $("#subEditBtnSub").click(function () {
+                var textRep = $("#cmtEditSub").val();
+                var idPost = @Model.IDCommunity;
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("EditCmtSub", "Community")',
+                    data: { cmt: textRep, idCmt: id, postID: idPost }, // Set the "cmt" parameter to the value of the textarea
+                    success: function (result) {
+                        alert("Sửa bình luận thành công !!!");
+                        document.getElementById("popupFormSubEdit").style.display = "none";
+                        document.getElementById("listCmt").scrollIntoView();
+                        location.reload();
+                    }
+                });
+                document.getElementById("listCmt").scrollIntoView();
+                location.reload();
+            });
+        });
+    </script>
+
+    @*Xóa cmt*@
+    <script>
+        var id = 0  //Khai báo cái này bằng 0
+        $(document).ready(function () {
+            $('.cmtDelBtn').on('click', function () {
+                document.getElementById("popupFormDel").style.display = "block";
+                id = $(this).attr("data-id");   //lấy id comment thông qua button reply
+            });
+        });
+
+        $(document).ready(function () {
+            $("#DelBtn").click(function () {
+                var idP = @Model.IDCommunity;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DelCmt", "Community")',
+                    data: { idCmt: id, postID: idP }, // Set the "cmt" parameter to the value of the textarea
+                    success: function (result) {
+                        alert("Xóa bình luận thành công !!!");
+                        document.getElementById("popupFormDel").style.display = "none";
+                        document.getElementById("listCmt").scrollIntoView();
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+
+    @*Xóa cmt con*@
+    <script>
+        var id = 0  //Khai báo cái này bằng 0
+        $(document).ready(function () {
+            $('.SubcmtDelBtn').on('click', function () {
+                document.getElementById("popupFormSubDel").style.display = "block";
+                id = $(this).attr("data-id");   //lấy id comment thông qua button reply
+            });
+        });
+
+        $(document).ready(function () {
+            $("#DelSubBtn").click(function () {
+                var idP = @Model.IDCommunity;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("SubDelCmt", "Community")',
+                    data: { idCmt: id, postID: idP }, // Set the "cmt" parameter to the value of the textarea
+                    success: function (result) {
+                        alert("Xóa bình luận thành công !!!");
+                        document.getElementById("popupFormSubDel").style.display = "none";
+                        document.getElementById("listCmt").scrollIntoView();
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+
+    @*Báo cáo cmt*@
+    <script>
+        var id = 0  //Khai báo cái này bằng 0
+        $(document).ready(function () {
+            $('.rpBtn').on('click', function () {
+                document.getElementById("popupFormReport").style.display = "block";
+                id = $(this).attr("data-id");   //lấy id comment thông qua button reply
+            });
+        });
+
+        $(document).ready(function () {
+            $("#rpCmt").click(function () {
+                var idP = @Model.IDCommunity;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("RipCmt", "Community")',
+                    data: { idCmt: id, postID: idP }, // Set the "cmt" parameter to the value of the textarea
+                    success: function (result) {
+                        alert("Báo cáo bình luận thành công !!!");
+                        document.getElementById("popupFormReport").style.display = "none";
+                        document.getElementById("listCmt").scrollIntoView();
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+
+    @*Báo cáo cmt con*@
+    <script>
+        var id = 0  //Khai báo cái này bằng 0
+        $(document).ready(function () {
+            $('.rpBtnSub').on('click', function () {
+                document.getElementById("popupFormSubReport").style.display = "block";
+                id = $(this).attr("data-id");   //lấy id comment thông qua button reply
+            });
+        });
+
+        $(document).ready(function () {
+            $("#rpCmtSub").click(function () {
+                var idP = @Model.IDCommunity;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("RipSubCmt", "Community")',
+                    data: { idCmt: id, postID: idP }, // Set the "cmt" parameter to the value of the textarea
+                    success: function (result) {
+                        alert("Báo cáo bình luận thành công !!!");
+                        document.getElementById("popupFormSubReport").style.display = "none";
+                        document.getElementById("listCmt").scrollIntoView();
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+@section slideEndFoo{
+    <div class="slide-facebook">
+        <div class="slide-facebook_btop">
+            <img class="img-on-bot" src="~/assets/User/img/backtop.png" alt="">
+        </div>
+    </div>
+}
+
+
+@if (IDUserLogin != 0)
+{
+    foreach (var user in ViewBag.AllUserlikedislike) // to get all user
+    {
+        var checkUser = db.USERWEBs.Find(IDUserLogin);
+        if (checkUser.IDUser == user.IDUser)
+        {
+            ViewBag.userid = user.IDUser;  // checking current id is present or not
+            ViewBag.userlike = user.IsLike;
+            break;
+        }
+    }
+}
+
+<!-- Home -->
+
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-speed="0.8"
+         data-image-src="~/assets/User/img/cat1.jpg"></div>
+    <div class="home_content">
+        <div class="post_title">@Html.DisplayFor(model => model.TieuDe)</div>
+        <div class="link-url">
+            <a href="/trang-chu">Trang chủ</a>
+            <span>/</span>
+            <a href="/cong-dong">Cộng đồng</a>
+            <span>/</span>
+            <a href="/chi-tiet-bai-viet-cong-dong/@loai.UrlTitle-@loai.IDCommunity" class="url_newsDetails">@Html.DisplayFor(model => model.TieuDe)</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- Page Content -->
+<div class="page_content">
+    <div class="container">
+        <div class="row row-lg-eq-height">
+            <!-- Post Content -->
+            <div class="col-lg-9">
+                <div class="post_content">
+
+                    <!-- Top Panel -->
+                    <div class="post_panel post_panel_top d-flex flex-row align-items-center justify-content-start">
+                        <div class="author_image">
+                            <div>
+                                @if (UsWeb.Image != null)
+                                {
+                                    <img src="@Url.Content(UsWeb.Image)" alt="">
+                                }
+                                else
+                                {
+                                    <img src="~/assets/User/img/userTest.png" />
+                                }
+                            </div>
+                        </div>
+                        <div class="post_meta">
+                            <a href="/thong-tin-ca-nhan/@UsWeb.TaiKhoan">@UsWeb.TaiKhoan</a>
+                        </div>
+
+                    </div>
+
+                    <!-- Post Body -->
+
+                    <div class="post_body">
+                        <p class="post_p">
+                            @Html.Raw(Model.NoiDung)
+                        </p>
+                        <figure>
+                            <img src="@Url.Content(Model.Image)" alt="">
+                        </figure>
+
+                        <p style="font-weight:700; font-size:15px; text-transform:uppercase;">Thẻ bài viết:</p>
+                        <!-- Post Tags -->
+                        <div class="post_tags">
+                            <ul>
+                                <li class="post_tag">
+                                    <a href="@UrlTag">@tag.Ten</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    @if (TempData["AlertMessage"] != null)
+                    {
+                        <div id="AlertBox" class="link-url alert @TempData["AlertType"] hide" role="alert" style="background-color: #d4edda;">
+                            <p style="font-size:16px;color:green;">@TempData["AlertMessage"]</p>
+                        </div>
+                    }
+
+
+                    @if (IDUserLogin != 0)
+                    {
+                        @*Like post*@
+                        if (@ViewBag.userid == IDUserLogin && ViewBag.userlike == true)//if user did like,user can do only dislike
+                        {
+                            <div style="margin-top:5px;">
+                                <button id="myButtonLik" disabled class="btn btn-info btn-xs like-button" onclick="location.href='@Url.Action("Like", "Community", new { postId = Model.IDCommunity })'">Like</button>
+
+                                <span>@ViewBag.like</span> likes
+
+                                <button id="myButtonDis" class="btn btn-info btn-xs like-button" onclick="location.href='@Url.Action("Dislike", "Community", new { postId = Model.IDCommunity })'">Dislike</button>
+                            </div>
+                        }
+                        else if (@ViewBag.userid == IDUserLogin && ViewBag.userlike == false) //if user did dislike then user  can do like only
+                        {
+                            <div style="margin-top:5px;">
+                                <button id="myButtonLik" class="btn btn-info btn-xs like-button" onclick="location.href='@Url.Action("Like", "Community", new { postId = Model.IDCommunity })'">Like</button>
+
+                                <span>@ViewBag.like</span> likes
+
+                                <button id="myButtonDis" disabled class="btn btn-info btn-xs like-button" onclick="location.href='@Url.Action("Dislike", "Community", new { postId = Model.IDCommunity })'">Dislike</button>
+                            </div>
+
+                        }
+                        else // if user have not done like or dislike then both options are enable
+                        {
+                            <div style="margin-top:5px;">
+                                <button id="myButtonLik" class="btn btn-info btn-xs like-button" onclick="location.href='@Url.Action("Like", "Community", new { postId = Model.IDCommunity })'">Like</button>
+
+                                <span>@ViewBag.like</span> likes
+
+                                <button id="myButtonDis" class="btn btn-info btn-xs like-button" onclick="location.href='@Url.Action("Dislike", "Community", new { postId = Model.IDCommunity })'">Dislike</button>
+                            </div>
+                        }
+                        @*Like post*@
+                    }
+
+
+                    <!-- Similar Posts -->
+                    <div class="similar_posts">
+                        <div class="title-load-news">Bài viết liên quan</div>
+
+                        <div class="row">
+                            @foreach (var item in listPostLienQuan)
+                            {
+                                var NewsDetailsUrl = "/chi-tiet-bai-viet-cong-dong/" + @item.UrlTitle + "-" + @item.IDCommunity;
+                                <div class="column">
+                                    <div class="card_news">
+                                        <div class="card_news_img">
+                                            <img src="@Url.Content(item.Image)" style="width:100%">
+                                        </div>
+                                        <div class="container_news">
+                                            <span class="tilte_news">@item.TieuDe</span>
+                                            <p class="summary_news_p">Tóm tắt:</p>
+                                            <span class="summary_news">@item.TomTat</span>
+                                            <p class="summary_news_p">Thời gian đăng bài:</p>
+                                            @if (item.NgayTao != null)
+                                            {
+                                                <p class="date_news">@string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayTao)</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="date_news">Chưa cập nhập thời gian</p>
+                                            }
+                                            <p><a href="@NewsDetailsUrl" class="button_news">Xem</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Post Comment -->
+                    <div class="post_comment">
+                        <div class="post_comment_title" id="TitleCmt">Cảm nhận của bạn về bài viết</div>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="post_comment_form_container">
+                                    <form action="#">
+                                        <textarea id="cmt_text" required rows="4" cols="5" class="comment_text" placeholder="Bình luận gì đó ..."></textarea>
+                                        @if (IDUserLogin != 0)
+                                        {
+                                            <button id="myCmt" class="comment_button">Bình luận</button>
+                                        }
+                                        else
+                                        {
+                                            <a href="/dang-nhap">Đăng nhập để bình luận</a>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comments -->
+                    <div class="comments" id="listCmt">
+                        <div class="comments_title">Bình luận <span>(@countCMT)</span></div>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="comments_container">
+                                    <ul class="comment_list">
+                                        <li class="comment">
+                                            @if (listCMT != null)
+                                            {
+                                                foreach (var item in listCMT)
+                                                {
+                                                    var userCMT = db.USERWEBs.Find(item.IDUser);
+
+
+                                                    @*đại diện cho 1 cmt*@
+                                                    <div class="comment_body">
+                                                        @*cmt gốc*@
+                                                        <div class="comment_body_main">
+                                                            <div class="comment_panel d-flex flex-row align-items-center justify-content-start">
+                                                                <div class="comment_author_image">
+                                                                    @if (userCMT.Image != null)
+                                                                    {
+                                                                        <img src="@Url.Content(userCMT.Image)" alt="">
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <img src="~/assets/User/img/userTest.png" />
+                                                                    }
+                                                                </div>
+                                                                <small class="post_meta">
+                                                                    <a href="/thong-tin-ca-nhan/@userCMT.TaiKhoan">
+                                                                        @userCMT.TaiKhoan
+                                                                    </a><span>@string.Format("{0:dd/MM/yyyy}", item.NgayTao)</span>
+                                                                </small>
+                                                                <div class="ml-auto">
+                                                                    @if (IDUserLogin != 0)
+                                                                    {
+                                                                        if (IDUserLogin == item.IDUser)
+                                                                        {
+                                                                            <button type="button" data-id="@item.IDComment" onclick="openFormEdit()" class="btn_rp ml-auto editCmt">
+                                                                                Sửa
+                                                                            </button>
+
+                                                                            <button type="button" data-id="@item.IDComment" onclick="openFormDel()" class="btn_del ml-auto cmtDelBtn">
+                                                                                Xóa
+                                                                            </button>
+
+                                                                            <button name="@item.IDComment" data-id="@item.IDComment" type="button" onclick="openForm()" class="reply_button ml-auto cmtRepBtn">
+                                                                                Trả lời
+                                                                            </button>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <button type="button" data-id="@item.IDComment" onclick="openFormReport()" class="btn_del ml-auto rpBtn">
+                                                                                Báo cáo
+                                                                            </button>
+
+                                                                            <button name="@item.IDComment" data-id="@item.IDComment" type="button" onclick="openForm()" class="reply_button ml-auto cmtRepBtn">
+                                                                                Trả lời
+                                                                            </button>
+                                                                        }
+                                                                    }
+
+                                                                    @*Popup Trả lời bình luận*@
+                                                                    <div class="loginPopup">
+                                                                        <div class="formPopup" id="popupForm">
+                                                                            <form action="" class="formContainer">
+                                                                                <h2>Trả lời bình luận</h2>
+                                                                                <label for="email">
+                                                                                    <strong>Viết cảm nghĩ của bạn</strong>
+                                                                                </label>
+                                                                                <input type="text" id="cmtRep">
+                                                                                <button id="submitButton" type="submit" class="btn">Bình luận</button>
+                                                                                <button type="button" class="btn cancel" onclick="closeForm()">Hủy</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                    @*Popup Trả lời bình luận*@
+
+                                                                    @*Popup Sửa bình luận*@
+                                                                    <div class="loginPopup">
+                                                                        <div class="formPopup" id="popupFormEdit">
+                                                                            <form action="" class="formContainer">
+                                                                                <h2>Sửa bình luận</h2>
+                                                                                <label for="email">
+                                                                                    <strong>Viết cảm nghĩ của bạn</strong>
+                                                                                </label>
+                                                                                <input type="text" id="cmtEdit">
+                                                                                <button id="subEditBtn" type="submit" class="btn">Sửa</button>
+                                                                                <button type="button" class="btn cancel" onclick="closeFormEdit()">Hủy</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="loginPopup">
+                                                                        <div class="formPopup" id="popupFormSubEdit">
+                                                                            <form action="" class="formContainer">
+                                                                                <h2>Sửa bình luận Sub</h2>
+                                                                                <label for="email">
+                                                                                    <strong>Viết cảm nghĩ của bạn</strong>
+                                                                                </label>
+                                                                                <input type="text" id="cmtEditSub">
+                                                                                <button id="subEditBtnSub" type="submit" class="btn">Sửa</button>
+                                                                                <button type="button" class="btn cancel" onclick="closeFormSubEdit()">Hủy</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                    @*Popup Sửa bình luận*@
+
+                                                                    @*Popup Xóa bình luận*@
+                                                                    <div class="loginPopup">
+                                                                        <div class="formPopup" id="popupFormDel">
+                                                                            <form action="" class="formContainer">
+                                                                                <h2>Xóa bình luận của bạn</h2>
+                                                                                <button id="DelBtn" type="submit" class="btn">Xóa</button>
+                                                                                <button type="button" class="btn cancel" onclick="closeFormDel()">Hủy</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="loginPopup">
+                                                                        <div class="formPopup" id="popupFormSubDel">
+                                                                            <form action="" class="formContainer">
+                                                                                <h2>Xóa bình luận của bạn</h2>
+                                                                                <button id="DelSubBtn" type="submit" class="btn">Xóa</button>
+                                                                                <button type="button" class="btn cancel" onclick="closeFormSubDel()">Hủy</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                    @*Popup Xóa bình luận*@
+
+                                                                    @*Popup báo cáo bình luận*@
+                                                                    <div class="loginPopup">
+                                                                        <div class="formPopup" id="popupFormReport">
+                                                                            <form action="" class="formContainer">
+                                                                                <h2>Báo cáo bình luận này</h2>
+                                                                                <button id="rpCmt" type="submit" class="btn">Báo cáo</button>
+                                                                                <button type="button" class="btn cancel" onclick="closeFormReport()">Hủy</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="loginPopup">
+                                                                        <div class="formPopup" id="popupFormSubReport">
+                                                                            <form action="" class="formContainer">
+                                                                                <h2>Báo cáo bình luận này</h2>
+                                                                                <button id="rpCmtSub" type="submit" class="btn">Báo cáo</button>
+                                                                                <button type="button" class="btn cancel" onclick="closeFormReport()">Hủy</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                    @*Popup báo cáo bình luận*@
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="comment_content">
+                                                                <p>@item.NoiDung</p>
+                                                            </div>
+                                                        </div>
+                                                        @*cmt gốc*@
+
+
+                                                        @*cmt con*@
+                                                        @{Html.RenderAction("_ChildComment", "Community", new { id = item.IDComment, idUs = IDUserLogin });}
+                                                        @*cmt con*@
+                                                    </div>
+
+                                                }
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <div class="sidebar_background">
+                        <div class="card_news">
+                            <div class="container_news">
+                                <h4>Giới thiệu</h4>
+                                <p>@Html.DisplayFor(model => model.TomTat)</p>
+                                <hr />
+                                <h4>Tóm tắt bài viết</h4>
+                                <p>@Html.DisplayFor(model => model.GioiThieu)</p>
+                                <hr />
+                                <h4>Ngày đăng</h4>
+                                @if (Model.NgayTao != null)
+                                {
+                                    <p>@Convert.ToDateTime(Model.NgayTao).ToString("dd/MM/yyyy")</p>
+                                }
+                                else
+                                {
+                                    <p>Chưa cập nhập thời gian</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bài đánh giá cao -->
+                <div class="sidebar">
+                    <div class="sidebar_count">
+                        <div class="sidebar_count_head">
+                            <span>BÀI VIẾT ĐÁNH GIÁ CAO</span>
+                        </div>
+
+                        <div class="sidebar_count_body">
+                            <div class="sidebar_count_body_card">
+
+                                @foreach (var item in listLikePost)
+                                {
+                                    var PostDetailsUrl = "/chi-tiet-bai-viet-cong-dong/" + item.UrlTitle + "-" + item.IDCommunity;
+                                    var loaiUs = db.USERWEBs.Find(item.IDUser);
+
+                                    <div class="sidebar_count_body_card_item">
+                                        <div class="item_left">
+                                            <a href="@PostDetailsUrl">
+                                                <div class="item_img">
+                                                    @if (item.Image != null)
+                                                    {
+                                                        <img src="@Url.Content(item.Image)">
+                                                    }
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="item_right">
+                                            <a href="@PostDetailsUrl">
+                                                @item.TieuDe
+                                            </a>
+                                            <div class="item_right_author">
+                                                <a href="/thong-tin-ca-nhan/@loaiUs.TaiKhoan">@loaiUs.TaiKhoan</a>
+                                                <span>@string.Format("{0:dd/MM/yyyy}", item.NgayTao)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,538 @@
+﻿@model Model.EF.COMMUNITY
+@using Model.EF;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BDC25DbContext db = new BDC25DbContext();
+
+    var loai = db.USERWEBs.Find(ViewBag.IDUSer);
+    var loainotLogin = db.USERWEBs.Find(ViewBag.IDUSerNotLogin);
+
+    bool check = ViewBag.CheckUser;
+
+    int IDUsLog = Convert.ToInt32(Session["IDUserLogin"]?.ToString());  //0 //2
+    int IDUsNotLog = Convert.ToInt32(Session["IDUserNotLogin"]?.ToString());    //4
+
+    var BvDoiDuyet = (List<Model.EF.COMMUNITY>)ViewBag.ListBvChuaDuyet;
+    var BvDaDuyet = (List<Model.EF.COMMUNITY>)ViewBag.ListBvDaDuyet;
+    int DaDuyet = ViewBag.SoLuongDuyet;
+    int KhongDuyet = ViewBag.SoLuongKhongDuyet;
+
+
+    var BvFollow = new List<Model.EF.COMMUNITY>();
+
+    if (ViewBag.PostFollow != null)
+    {
+        BvFollow = (List<Model.EF.COMMUNITY>)ViewBag.PostFollow;
+    }
+
+
+
+    int countFL = 0;
+
+    if (ViewBag.AllUserFlow != null)
+    {
+        countFL = (int)ViewBag.AllUserFlow;
+    }
+
+
+    int IDUsFl = Convert.ToInt32(Session["IDUserFl"]?.ToString());
+}
+
+@section cssPage{
+    <link href="~/assets/User/CSS/profile9.css" rel="stylesheet" />
+}
+
+@section slideEndFoo{
+    <div class="slide-facebook">
+        <div class="slide-facebook_btop">
+            <img class="img-on-bot" src="~/assets/User/img/backtop.png" alt="">
+        </div>
+    </div>
+}
+
+@section scrFile{
+    <script src="~/assets/User/JS/Load5MoreSec.js"></script>
+    <script src="~/assets/User/JS/profile.js"></script>
+    <script src="~/assets/User/JS/Alert.js"></script>
+}
+
+<!-- Content -->
+<div class="page_content">
+
+    <div class="content_main">
+        <div class="row">
+            <!-- Left Profile -->
+            <div class="left">
+                <h2>Thông tin cá nhân</h2>
+                @*Hiển thị tên tài khoản*@
+                @if (IDUsLog != 0 && IDUsLog == IDUsNotLog)//Đăng nhập nhưng xem tài khoản mình
+                {
+                    <h5> @loai.TaiKhoan </h5>
+                }
+                else if (IDUsNotLog != 0) //Khi ma khong dang nhap xem tài khoản người khác
+                {
+                    <h5> @loainotLogin.TaiKhoan </h5>
+                }
+                else //Đăng nhập nhưng xem tài khoản người khác
+                {
+                    <h5> @loainotLogin.TaiKhoan </h5>
+                }
+                @*End Hiển thị tên tài khoản*@
+
+
+                @*Hiển thị ảnh tài khoản*@
+                <div class="fakeimg">
+
+                    @if (IDUsLog != 0 && IDUsLog == IDUsNotLog)
+                    {
+                        if (@loai.Image != null)
+                        {
+                            <img src="@Url.Content(@loai.Image)" alt="">
+                        }
+                        else
+                        {
+                            <img src="~/assets/User/img/userTest.png" />
+                        }
+                    }
+                    else if (IDUsNotLog != 0)
+                    {
+                        if (loainotLogin.Image != null)
+                        {
+                            <img src="@Url.Content(loainotLogin.Image)" alt="">
+                        }
+                        else
+                        {
+                            <img src="~/assets/User/img/userTest.png" />
+                        }
+                    }
+                    else
+                    {
+                        if (loainotLogin.Image != null)
+                        {
+                            <img src="@Url.Content(loainotLogin.Image)" alt="">
+                        }
+                        else
+                        {
+                            <img src="~/assets/User/img/userTest.png" />
+                        }
+                    }
+                </div>
+                @*End Hiển thị ảnh tài khoản*@
+
+
+                @*Hiển thị Email tài khoản*@
+                @if (IDUsLog != 0 && IDUsLog == IDUsNotLog)
+                {
+                    <p>@loai.Email</p>
+                }
+                else if (IDUsNotLog != 0)
+                {
+                    <p>@loainotLogin.Email</p>
+                }
+                else
+                {
+                    <p>@loainotLogin.Email</p>
+                }
+                @*End Hiển thị Email tài khoản*@
+
+
+                @*Hiển thị Địa chỉ tài khoản*@
+                @if (IDUsLog != 0 && IDUsLog == IDUsNotLog)
+                {
+                    if (@loai.DiaChi != null)
+                    {
+                        <p>@loai.DiaChi</p>
+                    }
+                    else
+                    {
+                        <p>Chưa cập nhập địa chỉ</p>
+                    }
+                }
+                else if (IDUsNotLog != 0)
+                {
+                    if (loainotLogin.DiaChi != null)
+                    {
+                        <p>@loainotLogin.DiaChi</p>
+                    }
+                    else
+                    {
+                        <p>Chưa cập nhập địa chỉ</p>
+                    }
+                }
+                else
+                {
+                    if (loainotLogin.DiaChi != null)
+                    {
+                        <p>@loainotLogin.DiaChi</p>
+                    }
+                    else
+                    {
+                        <p>Chưa cập nhập địa chỉ</p>
+                    }
+                }
+                @*End Hiển thị Địa chỉ tài khoản*@
+
+                @*Hiển thị số lượng người đang theo dõi*@
+                @if (IDUsLog != 0 && IDUsLog == IDUsNotLog)
+                {
+                    <p>Số người đang theo dõi: @countFL</p>
+                }
+                else if (IDUsNotLog != 0)
+                {
+                    <p>Số người đang theo dõi: @countFL</p>
+                }
+                else
+                {
+                    <p>Số người đang theo dõi: @countFL</p>
+                }
+                @*Hiển thị số lượng người đang theo dõi*@
+
+
+                @*Hiển thị button chỉnh sửa thông tin cá nhân hoặc theo dõi*@
+                @if (IDUsLog != 0 && IDUsLog == IDUsNotLog) //KHi mình đăng nhập và xem tài khoản mình
+                {
+                    <a href="/thong-tin-ca-nhan/chinh-sua/@loai.IDUser" class="btn button">Chỉnh sửa thông tin</a>
+                }
+                else if (IDUsNotLog != 0 && IDUsLog != 0)   //KHi mình đăng nhập và xem tài khoản người khác
+                {
+                    if (ViewBag.IsFL != null)
+                    {
+                        bool IsFL = ViewBag.IsFL;
+                        if (IDUsFl != IDUsLog && IsFL == false)
+                        {
+                            <button class="btn" onclick="location.href='@Url.Action("Follow", "InfoUser", new { UserIDFollow = IDUsNotLog })'">Theo dõi</button>
+                        }
+                        else if (IDUsFl != IDUsLog && IsFL == true)
+                        {
+                            <button class="btn" onclick="location.href='@Url.Action("Follow", "InfoUser", new { UserIDFollow = IDUsNotLog })'">Hủy theo dõi</button>
+                        }
+                    }
+                    else
+                    {
+                        <button class="btn" onclick="location.href='@Url.Action("Follow", "InfoUser", new { UserIDFollow = IDUsNotLog })'">Theo dõi</button>
+                    }
+                }
+                else
+                {
+                    <a href="/dang-nhap" class="btn button">Đăng nhập để theo dõi</a>
+                }
+            </div>
+
+
+            <!-- Right Information -->
+            <div class="right">
+                @if (TempData["AlertMessage"] != null)
+                {
+                    <div id="AlertBox" class="alert @TempData["AlertType"] hide" role="alert" style="background-color: #d4edda;">
+                        <p style="font-size:16px;color:green;">@TempData["AlertMessage"]</p>
+                    </div>
+                }
+                <!-- Tab links -->
+                <div class="tab">
+                    <button class="tablinks active" onclick="openTab(event, 'postUser')">Bài viết (@DaDuyet)</button>
+                    <button class="tablinks" onclick="openTab(event, 'commentUser')">Bình luận</button>
+                    @if (IDUsLog != 0 && IDUsLog == IDUsNotLog)
+                    {
+                        <button class="tablinks" onclick="openTab(event, 'postActive')">Bài đợi duyệt (@KhongDuyet)</button>
+                        <button class="tablinks" onclick="openTab(event, 'postFollow')">Các bài viết người dùng theo dõi</button>
+                    }
+                </div>
+
+                <!-- Bài đã duyệt -->
+                <div id="postUser" class="tabcontent" style="display: block;">
+                    @if (check == true)
+                    {
+                        if (DaDuyet > 0)
+                        {
+                            foreach (var item in BvDaDuyet)
+                            {
+                                var PostDetailsUrl = "/chinh-sua-bai-viet/" + item.UrlTitle + "-" + item.IDCommunity;
+
+                                <div class="content_post content">
+                                    <div class="item_content">
+                                        <div class="content_col">
+                                            <div class="content_img">
+                                                <img src="@Url.Content(@item.Image)">
+                                            </div>
+                                            <div class="content_content">
+                                                <div class="title_content">
+                                                    <h3>@item.TieuDe</h3>
+                                                    <span>
+                                                        @item.TomTat
+                                                    </span>
+                                                </div>
+                                                <div class="user_post">
+                                                    <div class="userImg">
+                                                        @if (IDUsLog != 0 && IDUsLog == IDUsNotLog)
+                                                        {
+                                                            if (@loai.Image != null)
+                                                            {
+                                                                <img src="@Url.Content(@loai.Image)" alt="">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/assets/User/img/userTest.png" />
+                                                            }
+                                                        }
+                                                        else if (IDUsNotLog != 0)
+                                                        {
+                                                            if (loainotLogin.Image != null)
+                                                            {
+                                                                <img src="@Url.Content(loainotLogin.Image)" alt="">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/assets/User/img/userTest.png" />
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            if (loainotLogin.Image != null)
+                                                            {
+                                                                <img src="@Url.Content(loainotLogin.Image)" alt="">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/assets/User/img/userTest.png" />
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div class="timePost">
+                                                        @*Tên tài khoản*@
+                                                        @if (IDUsLog != 0 && IDUsLog == IDUsNotLog)
+                                                        {
+                                                            <h4> @loai.TaiKhoan </h4>
+                                                        }
+                                                        else if (IDUsNotLog != 0)//Khi ma khong dang nhap hoac dang nhap ma khong click vao tai khoan cua minh
+                                                        {
+                                                            <h4> @loainotLogin.TaiKhoan </h4>
+                                                        }
+                                                        else
+                                                        {
+                                                            <h4> @loainotLogin.TaiKhoan </h4>
+                                                        }
+
+                                                        @*Ngày tạo*@
+                                                        @if (item.NgayTao != null)
+                                                        {
+                                                            <span>@string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayTao)</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>Chưa cập nhập thời gian</span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="user_link">
+                                                    @if (IDUsLog != 0 && IDUsLog == IDUsNotLog)
+                                                    {
+                                                        <a href="@PostDetailsUrl">Sửa</a>
+                                                        @Ajax.ActionLink("Xóa", "Delete", new { @id = item.IDCommunity }, new AjaxOptions
+                                                           {
+                                                               Confirm = "Bạn có muốn xóa trường: " + item.TieuDe + " có ID = " + item.IDCommunity,
+                                                               OnComplete = "$('" + @item.IDCommunity + "').remove()",
+                                                               HttpMethod = "Delete"
+                                                           })
+                                                        @*<a href="/InfoUser/AnPost/@item.IDCommunity">Ẩn</a>*@
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                            <div>
+                                <a href="#" id="loadMore" class="loadPost">Hiển thị thêm</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <span>Chưa có bài viết nào</span>
+                        }
+
+                    }
+                    else
+                    {
+                        <span>Chưa có bài viết nào</span>
+                    }
+                </div>
+
+                <!-- Bình luận -->
+                <div id="commentUser" class="tabcontent">
+                    <h3>Bình luận đang trong quá trình phát triển</h3>
+                </div>
+
+                <!-- Bài đợi duyệt -->
+                <div id="postActive" class="tabcontent">
+                    @if (check == true)
+                    {
+                        if (KhongDuyet > 0)
+                        {
+                            foreach (var item in BvDoiDuyet)
+                            {
+                                <div class="content_post">
+                                    <div class="item_content">
+                                        <div class="content_col">
+                                            <div class="content_img">
+                                                <img src="@Url.Content(@item.Image)">
+                                            </div>
+                                            <div class="content_content">
+                                                <div class="title_content">
+                                                    <h3>@item.TieuDe</h3>
+                                                    <span>
+                                                        @item.TomTat
+                                                    </span>
+                                                </div>
+                                                <div class="user_post">
+                                                    <div class="userImg">
+                                                        @if (IDUsLog != 0 && IDUsLog == IDUsNotLog)
+                                                        {
+                                                            if (@loai.Image != null)
+                                                            {
+                                                                <img src="@Url.Content(@loai.Image)" alt="">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/assets/User/img/userTest.png" />
+                                                            }
+                                                        }
+                                                        else if (IDUsNotLog != 0)
+                                                        {
+                                                            if (loainotLogin.Image != null)
+                                                            {
+                                                                <img src="@Url.Content(loainotLogin.Image)" alt="">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/assets/User/img/userTest.png" />
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            if (loainotLogin.Image != null)
+                                                            {
+                                                                <img src="@Url.Content(loainotLogin.Image)" alt="">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/assets/User/img/userTest.png" />
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div class="timePost">
+                                                        @*Tên tài khoản*@
+                                                        @if (IDUsLog != 0 && IDUsLog == IDUsNotLog)
+                                                        {
+                                                            <h4> @loai.TaiKhoan </h4>
+                                                        }
+                                                        else if (IDUsNotLog != 0)//Khi ma khong dang nhap hoac dang nhap ma khong click vao tai khoan cua minh
+                                                        {
+                                                            <h4> @loainotLogin.TaiKhoan </h4>
+                                                        }
+                                                        else
+                                                        {
+                                                            <h4> @loainotLogin.TaiKhoan </h4>
+                                                        }
+
+                                                        @*Ngày tạo*@
+                                                        @if (item.NgayTao != null)
+                                                        {
+                                                            <span>@string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayTao)</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>Chưa cập nhập thời gian</span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <span>Không có bài viết để duyệt</span>
+                        }
+                    }
+                    else
+                    {
+                        <span>Không có bài viết để duyệt</span>
+                    }
+                </div>
+
+                <!-- Bài follow -->
+                <div id="postFollow" class="tabcontent">
+                    @if (check == true)
+                    {
+                        if (BvFollow != null && BvFollow.Count() > 0)
+                        {
+                            foreach (var item in BvFollow)
+                            {
+                                var usFL = db.USERWEBs.Find(item.IDUser);
+                                <div class="content_post content">
+                                    <div class="item_content">
+                                        <div class="content_col">
+                                            <div class="content_img">
+                                                <img src="@Url.Content(@item.Image)">
+                                            </div>
+                                            <div class="content_content">
+                                                <div class="title_content">
+                                                    <h3>@item.TieuDe</h3>
+                                                    <span>
+                                                        @item.TomTat
+                                                    </span>
+                                                </div>
+                                                <div class="user_post">
+                                                    <div class="userImg">
+                                                        @if (usFL.Image != null)
+                                                        {
+                                                            <img src="@Url.Content(usFL.Image)" alt="">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="~/assets/User/img/userTest.png" />
+                                                        }
+                                                    </div>
+                                                    <div class="timePost">
+                                                        @*Tên tài khoản*@
+                                                        <h4>@usFL.TaiKhoan</h4>
+
+                                                        @*Ngày tạo*@
+                                                        @if (item.NgayTao != null)
+                                                        {
+                                                            <span>@string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayTao)</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>Chưa cập nhập thời gian</span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div>
+                                <a href="#" id="loadMoreFl" class="loadPostFL">Hiển thị thêm</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <span>Không có bài viết nào từ người dùng đang theo dõi</span>
+                        }
+                    }
+                    else
+                    {
+                        <span>Không có bài viết nào từ người dùng đang theo dõi</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

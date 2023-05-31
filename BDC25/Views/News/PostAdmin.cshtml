@@ -1,0 +1,158 @@
+﻿@model Model.EF.NEWS
+@using Model.EF;
+
+@{
+    ViewBag.Title = "PostAdmin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BDC25DbContext db = new BDC25DbContext();
+    var loai = db.NEWS.Find(ViewBag.IDNewsUserUI);
+    var idCate = db.CATEGORY_NEWS.Find(loai.IDCateNews);
+    var listLienQuan = (List<Model.EF.NEWS>)ViewBag.ListLienQuan;
+}
+
+@section cssPage{
+    <link href="~/assets/User/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/User/CSS/owl.carousel.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="plugins/jquery.mb.YTPlayer-3.1.12/jquery.mb.YTPlayer.css">
+    <link href="~/assets/User/CSS/post2.css" rel="stylesheet" />
+    <link href="~/assets/User/CSS/post_responsive.css" rel="stylesheet" />
+}
+
+@section scrFile{
+    <script src="~/assets/User/JS/jquery-3.2.1.min.js"></script>
+    <script src="~/assets/User/JS/owl.carousel.js"></script>
+    <script src="~/assets/User/JS/masonry.js"></script>
+    <script src="~/assets/User/JS/parallax.min.js"></script>
+    <script src="~/assets/User/JS/post.js"></script>
+}
+
+@section slideEndFoo{
+    <div class="slide-facebook">
+        <div class="slide-facebook_btop">
+            <img class="img-on-bot" src="~/assets/User/img/backtop.png" alt="">
+        </div>
+    </div>
+}
+
+<!-- Home -->
+
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-speed="0.8"
+         data-image-src="~/assets/User/img/cat1.jpg"></div>
+    <div class="home_content">
+        <div class="post_title">@Html.DisplayFor(model => model.TieuDe)</div>
+        <div class="link-url">
+            <a href="/Home/Index">Trang chủ</a>
+            <span>/</span>
+            <a href="/danh-muc/@idCate.UrlTitle-@idCate.IDCateNews">@idCate.Ten</a>
+            <span>/</span>
+            <a href="#" class="url_newsDetails">@Html.DisplayFor(model => model.TieuDe)</a>
+        </div>
+    </div>
+</div>
+
+<!-- Page Content -->
+
+<div class="page_content">
+    <div class="container">
+        <div class="row row-lg-eq-height">
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <div class="sidebar_background">
+                        <div class="card_news">
+                            <div class="container_news">
+                                <h4>Giới thiệu</h4>
+                                <p>@Html.DisplayFor(model => model.TomTat)</p>
+                                <hr />
+                                <h4>Tóm tắt bài viết</h4>
+                                <p>@Html.DisplayFor(model => model.GioiThieu)</p>
+                                <hr />
+                                <h4>Ngày đăng</h4>
+                                @if (Model.NgayTao != null)
+                                {
+                                    <p>@Convert.ToDateTime(Model.NgayTao).ToString("dd/MM/yyyy")</p>
+                                }
+                                else
+                                {
+                                    <p>Chưa cập nhập thời gian</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Post Content -->
+            <div class="col-lg-9">
+                <div class="post_content">
+
+                    <!-- Top Panel -->
+                    <div class="post_panel post_panel_top d-flex flex-row align-items-center justify-content-start">
+                        <div class="author_image">
+                            <div><img src="~/assets/User/img/cat1.jpg" alt=""></div>
+                        </div>
+                        <div class="post_meta">
+                            <a href="#">ADMIN</a>
+                        </div>
+
+                    </div>
+
+                    <!-- Post Body -->
+
+                    <div class="post_body">
+                        <p class="post_p">
+                            @Html.Raw(Model.NoiDung)
+                        </p>
+                        <figure>
+                            <img src="@Url.Content(Model.Image)" alt="">
+                        </figure>
+
+                        <p>Thẻ bài viết:</p>
+                        <!-- Post Tags -->
+                        <div class="post_tags">
+                            <ul>
+                                <li class="post_tag"><a href="/danh-muc/@idCate.UrlTitle-@idCate.IDCateNews">@idCate.Ten</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Similar Posts -->
+                    <div class="similar_posts">
+                        <div class="title-load-news">Bài viết liên quan</div>
+
+                        <div class="row">
+
+                            @foreach (var item in listLienQuan)
+                            {
+                                var NewsDetailsUrl = "/chi-tiet-bai-viet/" + item.UrlTitle + "-" + item.IDNews;
+                                <div class="column">
+                                    <div class="card_news">
+                                        <div class="card_news_img">
+                                            <img src="@Url.Content(item.Image)" style="width:100%">
+                                        </div>
+                                        <div class="container_news">
+                                            <span class="tilte_news">@item.TieuDe</span>
+                                            <p class="summary_news_p">Tóm tắt:</p>
+                                            <span class="summary_news">@item.TomTat</span>
+                                            <p class="summary_news_p">Thời gian đăng bài:</p>
+                                            @if (item.NgayTao != null)
+                                            {
+                                                <p class="date_news">@string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayTao)</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="date_news">Chưa cập nhập thời gian</p>
+                                            }
+                                            <p><a href="@NewsDetailsUrl" class="button_news">Xem</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

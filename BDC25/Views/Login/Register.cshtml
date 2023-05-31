@@ -1,0 +1,76 @@
+﻿@model Model.EF.USERWEB
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="~/assets/User/CSS/register.css">
+
+    <!-- Custom styles for this template-->
+    <link href="~/assets/Admin/css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-register">
+        <div class="register">
+            <div>
+                <img class="imgRegister" src="~/assets/User/img/pét.jpg" />
+            </div>
+            <div class="register-Input">
+                <div class="Input">
+                    <h2>Đăng ký tài khoản!</h2>
+                    @using (Html.BeginForm("Register", "Login", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form">
+                            <hr />
+                            @*Tổng hợp lỗi*@
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(model => model.TaiKhoan, new { @class = "form-control", @autofocus = "autofocus", @placeholder = "Tài khoản" })
+                                @Html.ValidationMessageFor(model => model.TaiKhoan, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(model => model.HoTen, new { @class = "form-control", @autofocus = "autofocus", @placeholder = "Họ và Tên" })
+                                @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @autofocus = "autofocus", @placeholder = "Email" })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(model => model.DienThoai, new { @class = "form-control", @autofocus = "autofocus", @placeholder = "Số điện thoại" })
+                                @Html.ValidationMessageFor(model => model.DienThoai, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.PasswordFor(model => model.MatKhau, new { @class = "form-control", @placeholder = "Mật khẩu" })
+                                @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-12">
+                                <input type="submit" value="Đăng ký" class="btn btn-primary" />
+                            </div>
+
+                        </div>//End form
+                    }
+                </div>
+                <div class="account">
+                    <a href="/dang-nhap">Đăng nhập !</a>
+                    <a href="/quen-mat-khau">Quên mật khẩu ?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

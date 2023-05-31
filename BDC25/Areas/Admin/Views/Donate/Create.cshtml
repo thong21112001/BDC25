@@ -1,0 +1,83 @@
+﻿@model Model.EF.DONATE
+
+@{
+    ViewBag.Title = "Trang thêm danh sách";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section header{
+    Trang thêm danh sách ủng hộ
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        @using (Html.BeginForm("Create", "Donate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form">
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                                <div class="row">
+                                    <div class="col-lg-12 d-flex">
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label col-md-12">Tiêu đề danh sách</label>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(model => model.TieuDe, new { @class = "form-control", @required = "" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12 d-flex">
+                                        <div class="form-group col-md-4">
+                                            <label class="control-label col-md-12">Tải file lên</label>
+                                            <p class="card-text"> <input id="files" multiple="multiple" name="files" type="file"></p>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label class="control-label col-md-12">Trạng thái</label>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(model => model.AnHien,
+                                                new List<SelectListItem> {
+                                                    new SelectListItem { Value = "true", Text = "Hiển thị" }, new SelectListItem { Value = "false", Text = "Ẩn"
+                                                }
+                                                },
+                                                new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*Button thêm*@
+                                <div class="row">
+                                    <div class="col-lg-12 d-flex">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <input class="btn btn-primary" name="submit" type="submit" value="Thêm">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Button thêm*@
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })
+</div>

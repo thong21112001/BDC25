@@ -1,0 +1,28 @@
+﻿@model List<Model.EF.CATEGORY_NEWS>
+
+<div class="menu-two">
+    <div class="content-service">
+        <li class="service">
+            <a href="/trang-chu">Trang chủ</a>
+        </li>
+        @foreach (var item in Model)
+        {
+            <li class="service">
+                <a href="/danh-muc/@item.UrlTitle-@item.IDCateNews">@item.Ten</a>
+            </li>
+        }
+        <li class="service">
+            <a href="/huong-dan">Cẩm nang video</a>
+        </li>
+        <li class="service">
+            <a href="/danh-muc-game">Game</a>
+        </li>
+        <li class="service">
+            <a href="/ung-ho">Ủng hộ</a>
+        </li>
+        <li class="service">
+            <a href="/cong-dong">Cộng đồng</a>
+        </li>
+    </div>
+</div>
+

@@ -1,0 +1,481 @@
+﻿@charset "utf-8";
+
+
+/***********
+1. Fonts
+***********/
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700|Work+Sans:300,400,500,600,700,800,900');
+
+/*********************************
+2. Body and some general stuff
+*********************************/
+
+
+.link-url {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+    .link-url a {
+        color: #3b093a;
+        padding: 5px;
+        font-weight: 500;
+    }
+
+        .link-url a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+    .link-url .url_newsDetails {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 50ch;
+    }
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+    text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+}
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    background: #f7f7f7;
+    color: #a5a5a5;
+}
+
+div {
+    display: block;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+    margin-bottom: 0px;
+}
+
+p {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.5);
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+    text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+}
+
+    p:last-of-type {
+        margin-bottom: 0;
+    }
+
+    p a {
+        display: inline;
+        position: relative;
+        color: inherit;
+        border-bottom: solid 1px #ffa07f;
+        -webkit-transition: all 200ms ease;
+        -moz-transition: all 200ms ease;
+        -ms-transition: all 200ms ease;
+        -o-transition: all 200ms ease;
+        transition: all 200ms ease;
+    }
+
+a,
+a:hover,
+a:visited,
+a:active,
+a:link {
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+    text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+}
+
+p a:active {
+    position: relative;
+    color: #FF6347;
+}
+
+p a:hover {
+    color: #FFFFFF;
+    background: #ffa07f;
+}
+
+    p a:hover::after {
+        opacity: 0.2;
+    }
+
+::selection {
+}
+
+p::selection {
+}
+
+h1 {
+    font-size: 48px;
+}
+
+h2 {
+    font-size: 36px;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 14px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Open Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+    text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+}
+
+    h1::selection,
+    h2::selection,
+    h3::selection,
+    h4::selection,
+    h5::selection,
+    h6::selection {
+    }
+
+.form-control {
+    color: #db5246;
+}
+
+section {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.clear {
+    clear: both;
+}
+
+.clearfix::before,
+.clearfix::after {
+    content: "";
+    display: table;
+}
+
+.clearfix::after {
+    clear: both;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.float_left {
+    float: left;
+}
+
+.float_right {
+    float: right;
+}
+
+.trans_200 {
+    -webkit-transition: all 200ms ease;
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
+}
+
+.trans_300 {
+    -webkit-transition: all 300ms ease;
+    -moz-transition: all 300ms ease;
+    -ms-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    transition: all 300ms ease;
+}
+
+.trans_400 {
+    -webkit-transition: all 400ms ease;
+    -moz-transition: all 400ms ease;
+    -ms-transition: all 400ms ease;
+    -o-transition: all 400ms ease;
+    transition: all 400ms ease;
+}
+
+.trans_500 {
+    -webkit-transition: all 500ms ease;
+    -moz-transition: all 500ms ease;
+    -ms-transition: all 500ms ease;
+    -o-transition: all 500ms ease;
+    transition: all 500ms ease;
+}
+
+.fill_height {
+    height: 100%;
+}
+
+.super_container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.prlx_parent {
+    overflow: hidden;
+}
+
+.prlx {
+    height: 130% !important;
+}
+
+.parallax-window {
+    min-height: 400px;
+    background-color: transparent;
+    background-image: linear-gradient(140deg, #000000 0%, rgba(61, 81, 172, 0.8) 100%);
+    opacity: 0.73;
+}
+
+.nopadding {
+    padding: 0px !important;
+}
+
+/*********************************
+0. ALL
+*********************************/
+.page_content {
+    display: flex;
+    border-top: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.content_main {
+    height: auto;
+    width: 100%;
+    padding: 20px 150px;
+}
+
+
+/*********************************
+1. Main Content
+*********************************/
+/* Style the tab */
+.right {
+    width: 100% !important;
+    height: 100%;
+}
+
+.tab {
+    float: left;
+    width: 15% !important;
+    height: auto !important;
+}
+
+    .tab button {
+        display: block;
+        background-color: inherit;
+        color: black;
+        padding: 22px 16px;
+        width: 100%;
+        border: none;
+        outline: none;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .tab .button {
+        display: block;
+        background-color: inherit;
+        color: black;
+        padding: 22px 16px;
+        border: none;
+        outline: none;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+        background-color: #ddd;
+        color: #2faacf;
+    }
+
+    /* Create an active/current "tab button" class */
+    .tab button.active {
+        font-weight: bold;
+        border-left: 1px solid #2faacf;
+    }
+
+    .tab .button:hover {
+        background-color: #ddd;
+        color: #2faacf;
+    }
+
+    /* Create an active/current "tab button" class */
+    .tab .button.active {
+        font-weight: bold;
+        border-left: 1px solid #2faacf;
+    }
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 0px 25px;
+    width: 80%;
+    border-left: none;
+    height: auto !important;
+}
+
+    .tabcontent h3 {
+        font-weight: bold !important;
+        color: #000000;
+    }
+
+/* format content main */
+.tab_content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap !important;
+    margin: 10px 0;
+    padding: 5px 0;
+    align-items: center;
+}
+
+    .tab_content .tab_content_title {
+        padding: 0 10px;
+    }
+
+        .tab_content .tab_content_title h4 {
+            font-size: 20px;
+            text-align: center;
+            margin: 20px 0 20px;
+        }
+
+.tab_content_img {
+    width: 8rem;
+    height: 8rem;
+}
+
+.avatar-upload {
+    position: relative;
+    max-width: 100%;
+}
+
+    .avatar-upload .avatar-edit {
+        position: absolute;
+        right: 0px;
+        z-index: 1;
+        top: -3px;
+    }
+
+
+.avatar-preview {
+    width: 8rem;
+    height: 8rem;
+    position: relative;
+    border-radius: 100%;
+    border: 6px solid #f8f8f8;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+    .avatar-preview > div {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .avatar-preview img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+/* CSS phần textbox */
+.tab_content_main {
+    outline: none !important;
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+    padding: 5px 0;
+    align-items: center;
+    height: auto;
+}
+
+    .tab_content_main .tab_content_1 {
+        padding: 0 10px;
+        width: 48%;
+    }
+
+    .tab_content_main .tab_content_2 {
+        padding: 0 10px;
+        width: 48%;
+    }
+
+.tab_content_label {
+    margin-right: 10px;
+}
+
+.tab_content_textbox {
+    height: 30px;
+}
+
+.tab_content_label label {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.tab_content_textbox input {
+    height: 100%;
+    padding: 0px 5px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.tab_content_main .btn1 {
+    display: inline-block;
+    padding: 0.6em 1.7em;
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 10px;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    color: #fff;
+    text-align: center;
+    transition: all 0.2s;
+    background-color: #5cb9ef;
+    font-weight: 700;
+}
+
+    .tab_content_main .btn1:hover {
+        background-color: #0d76b3;
+    }

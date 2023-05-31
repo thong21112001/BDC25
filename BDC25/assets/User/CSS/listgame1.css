@@ -1,0 +1,174 @@
+﻿body {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    background-color: var(--bs-body-bg) !important;
+    color: #a5a5a5 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+    line-height: 1.5 !important;
+    text-align: left !important;
+    -webkit-text-size-adjust: 100% !important;
+    -webkit-tap-highlight-color: transparent !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow-x: hidden !important;
+}
+
+/* ==========Home-7============= */
+.main {
+    margin: 20px 0;
+}
+
+.link-url {
+    margin-top: 10px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+    .link-url span {
+        color: #3398d4;
+    }
+
+    .link-url a {
+        text-decoration: none;
+        padding: 0 5px;
+        color: #3398d4;
+        font-weight: 500;
+    }
+
+        .link-url a:hover {
+            color: black;
+            text-decoration: underline;
+        }
+
+.container-home-seven {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+
+
+.container-slide-seven {
+    margin-top: 0;
+    width: 100%;
+    height: auto;
+    transition: 1s ease-in-out;
+}
+
+.slide-home-seven {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    z-index: 2;
+    background-color: #ffff;
+}
+
+
+    .slide-home-seven span {
+        font-size: 30px;
+        top: 110%;
+        position: absolute;
+        z-index: -1;
+    }
+
+.content-slide-seven {
+    width: 360px;
+    height: 400px !important;
+    border-radius: 10px;
+    margin: 15px 15px;
+    cursor: pointer;
+    background-color: #f2f2f2;
+}
+
+    .content-slide-seven:hover .name-seven {
+        font-size: 16px;
+        text-decoration-line: underline
+    }
+
+    .content-slide-seven .img-slide-seven {
+        width: 100%;
+        height: 60% !important;
+        position: relative;
+    }
+
+    .content-slide-seven a {
+        text-decoration: none;
+    }
+
+.img-slide-seven img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.img-slide-seven .days-seven {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90px;
+    height: 60px;
+    bottom: 5%;
+    left: 10px;
+    background-color: #fff;
+}
+
+.content-slide-seven .content-seven {
+    height: 40% !important;
+    padding: 10px 15px !important;
+}
+
+    .content-slide-seven .content-seven .button {
+        font-weight: bold;
+        text-decoration: none;
+        position: absolute;
+        margin-left: 10px;
+        background-color: transparent;
+        color: #3398d4;
+        font-size: 15px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+.days-seven h3 {
+    color: #555;
+    bottom: -20px;
+    padding: 2px 0;
+    position: absolute;
+}
+
+.content-slide-seven .name-seven {
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.content-slide-seven .title-seven {
+    font-size: 15px;
+    color: #555;
+    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.container-slide-seven .version {
+    font-size: 16px;
+    color:red !important;
+    margin: 0px 10px !important;
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}

@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDC25</title>
+    <link href="~/assets/User/CSS/Style08.css" rel="stylesheet" />
+
+
+    @RenderSection("cssPage", required: false)
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+          integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script rel="javascript" type="text/javascript" href="js/jquery-1.11.3.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+</head>
+
+<body>
+    <!-- Menu -->
+    <header>
+        <!-- Menu -->
+        @RenderPage("MenuHead.cshtml")
+        <!-- Nav -->
+        @{Html.RenderAction("MenuNav", "Home"); }
+    </header>
+    <!-- End Menu -->
+    <!-- Main -->
+    @RenderSection("slide", required: false)
+    <div class="main">
+        @RenderBody()
+    </div>
+    <!-- End Main -->
+    <!-- Fotter -->
+    <!-- Fotter -->
+    <div class="container-footer">
+        <div class="content-footer">
+            <div class="footer-logo">
+                <img src="~/assets/User/img/logo_bdc.png" alt="">
+                <i class="fa-brands fa-facebook-f"></i>
+                <i class="fa-brands fa-facebook-messenger"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fab fa-youtube"></i>
+            </div>
+            <div class="info-support">
+                <h2>Cứu Trợ Động Vật Đà Nẵng</h2>
+                <h3>
+                    <i class="fa-solid fa-angle-right"></i>Hotline: 0367262415
+                </h3>
+                <h3>
+                    <i class="fa-solid fa-angle-right"></i>Hãy đăng bài khi thấy động vật gặp khó khăn
+                </h3>
+                <h3>
+                    <i class="fa-solid fa-angle-right"></i>Nhận nuôi chó mèo, liên hệ với cộng đồng BDC25
+                </h3>
+            </div>
+            <div class="connect-group">
+                <h2>Liên kết nhanh</h2>
+                <h3><i class="fa-solid fa-angle-right"></i>Cộng đồng BDC25</h3>
+                <h3><i class="fa-solid fa-angle-right"></i>Cứu hộ</h3>
+                <h3><i class="fa-solid fa-angle-right"></i>Game</h3>
+                <h3><i class="fa-solid fa-angle-right"></i>Ủng hộ</h3>
+                <h3><i class="fa-solid fa-angle-right"></i>Cẩm nang video</h3>
+            </div>
+        </div>
+        <h2 class="h2_footer">© 04-2023 CỘNG ĐỒNG BDC25</h2>
+    </div>
+    <!-- auto-slide -->
+    @RenderSection("slideEndFoo", required: false)
+    <!-- End Fotter -->
+
+
+
+    <script src="~/assets/User/JS/backTop1.js"></script>
+
+    <!-- Add CKEdit and CKFinder-->
+    <script src="~/assets/Admin/js/plugins/ckfinder/ckfinder.js"></script>
+    <script src="~/assets/Admin/js/plugins/ckeditor/ckeditor.js"></script>
+    @RenderSection("scrFile", required: false)
+</body>
+
+</html>

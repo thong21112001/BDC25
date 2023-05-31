@@ -1,0 +1,119 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.container-login {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #455fc7;
+}
+
+    .container-login .login {
+        width: 60%;
+        height: 70%;
+        background-color: aliceblue;
+        border-radius: 10px;
+        display: flex;
+        position: relative;
+    }
+
+.login .imgLogin {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    border-radius: 10px 0 0px 10px;
+    background-size: 100% 100%;
+}
+
+.login .login-Input {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    right: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-Input .error {
+    height: 19px;
+    width: 295px;
+    color: red;
+}
+
+.login .login-Input .Input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgb(101, 99, 99);
+}
+
+.login-Input .Input h2 {
+    margin: 20px;
+}
+
+.login-Input .Input input {
+    border: 1px solid gray;
+    border-radius: 50px;
+    width: 300px;
+    padding: 8px 15px;
+    margin: 5px 0;
+    outline: none;
+}
+
+    .login-Input .Input input:nth-child(3) {
+        margin-top: 20px;
+    }
+
+    .login-Input .Input input:focus {
+        border: 1px solid black;
+    }
+
+.login-Input .Input button {
+    margin-top: 15px;
+    border-radius: 50px;
+    width: 130px;
+    padding: 8px 15px;
+    height: 40px;
+    background-color: #2f59cda4;
+    color: #ffff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.5s;
+}
+
+    .login-Input .Input button:hover {
+        background-color: #2F58CD;
+        transition: all 0.5s;
+    }
+
+.login-Input .account {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .login-Input .account a {
+        text-decoration: none;
+        margin: 7px 0;
+        color: #166ba3;
+    }
+
+        .login-Input .account a:hover {
+            color: #47b1f7;
+        }

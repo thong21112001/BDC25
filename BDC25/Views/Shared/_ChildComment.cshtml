@@ -1,0 +1,65 @@
+﻿@model List<Model.EF.COMMENT_REPLY>
+@using Model.EF;
+
+@{ 
+    BDC25DbContext db = new BDC25DbContext();
+
+    string checkUs = ViewBag.PVUserN;
+    int IDUserLogin = 0;
+    if (checkUs != null)
+    {
+        IDUserLogin = (int)ViewBag.PVUser;
+    }
+}
+
+<ul class="comment_list comment_list_child">
+    @foreach (var item in Model)
+    {
+        var userCMT = db.USERWEBs.Find(item.IDUser);
+        <li class="comment">
+            <div class="comment_body">
+                <div class="comment_panel d-flex flex-row align-items-center justify-content-start">
+                    <div class="comment_author_image">
+                        @if (userCMT.Image != null)
+                        {
+                            <img src="@Url.Content(userCMT.Image)" alt="">
+                        }
+                        else
+                        {
+                            <img src="~/assets/User/img/userTest.png" />
+                        }
+                    </div>
+                    <small class="post_meta">
+                        <a href="/thong-tin-ca-nhan/@userCMT.TaiKhoan">
+                            @userCMT.TaiKhoan
+                        </a><span>@string.Format("{0:dd/MM/yyyy}", item.NgayTao)</span>
+                    </small>
+                    <div class="ml-auto">
+                        @if (IDUserLogin != 0)
+                        {
+                            if (IDUserLogin == item.IDUser)
+                            {
+                                <button type="button" data-id="@item.IDCommentReply" class="btn_rp ml-auto editCmtSub" onclick="openFormSubEdit()">
+                                    Sửa
+                                </button>
+
+                                <button type="button" data-id="@item.IDCommentReply" onclick="openFormSubDel()" class="btn_del ml-auto SubcmtDelBtn">
+                                    Xóa
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" data-id="@item.IDCommentReply" onclick="openFormReportSub()" class="btn_del ml-auto rpBtnSub">
+                                    Báo cáo
+                                </button>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="comment_content">
+                    <p>@item.NoiDung</p>
+                </div>
+            </div>
+        </li>
+    }
+</ul>

@@ -1,0 +1,165 @@
+﻿@model PagedList.IPagedList<Model.EF.COMMUNITY>
+@using PagedList.Mvc;
+@using Model.EF;
+
+@{
+    ViewBag.Title = "Danh sách bài viết người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    BDC25DbContext db = new BDC25DbContext();
+    List<TAGS_COMMUNITY> listLoaiTag = db.TAGS_COMMUNITY.ToList();
+    int stt = 0;
+}
+
+@section header{
+    <div class="row">
+        <div class="col-lg-12 d-flex justify-content-between">
+            <div class="col-md-4">
+                Danh sách bài viết đợi duyệt
+            </div>
+
+            <div class="col-md-4">
+                <div class="row">
+                    @using (Html.BeginForm("ChangePost", "Community", FormMethod.Get))
+                    {
+                        <div class="col-lg-12 d-flex justify-content-between">
+                            <div class="col-md-8">
+                                <select name="idLoaiDM" class="form-control">
+                                    <option>Tất cả</option>
+                                    @foreach (var item in listLoaiTag)
+                                    {
+                                        if (item.AnHien == true)
+                                        {
+                                            <option value="@item.IDTagsCommunity" @Html.Raw(item.IDTagsCommunity == ViewBag.idLoaiDM ? "selected" : "")>@item.Ten</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-success">Tìm</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                @using (Html.BeginForm("ChangePost", "Community", FormMethod.Get))
+                {
+                    <div class="ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control bg-light border-0 small" placeholder="Tìm kiếm theo tiêu đề..."
+                                   aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@section jsFooter{
+    <script src="~/assets/Admin/js/controller/PostUser.js"></script>
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tiêu đề</th>
+            <th scope="col">Tên Tag | ID</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col">Lượt đánh giá</th>
+            <th scope="col">Chức năng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)    //Model đại dienj cho NEWS
+        {
+            stt++;
+            <tr id="row_@item.IDCommunity">
+                <td>@stt</td>
+                <td>@item.TieuDe</td>
+                <td>
+                    @{
+                        var loai = db.TAGS_COMMUNITY.Find(item.IDTagsCommunity);
+                        if (loai != null)
+                        {
+                            <span>@loai.Ten | @item.IDTagsCommunity</span>
+                        }
+                    }
+                </td>
+                <td><a href="#" class="btn-active" data-id="@item.IDCommunity">@(item.AnHien?"Hiển thị":"Ẩn")</a></td>
+                <td>@item.DanhGia</td>
+                <td>
+                    <a class="btn btn-primary" href="/Admin/Community/Details/@item.IDCommunity">Chi tiết</a>
+                    @Ajax.ActionLink("Xóa", "Delete", new { @id = item.IDCommunity }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn xóa trường: " + item.TieuDe + " có ID = " + item.IDCommunity,
+                   OnComplete = "$('#row_" + @item.IDCommunity + "').remove()",
+                   HttpMethod = "Delete"
+               }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-uppercase">
+    <div class="row">
+        @if (Model.TotalItemCount > 0)
+        {
+            <div class="col-lg-6">
+                <div class="pagination-wrapper">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                                <a class="page-link" href="@Url.Action("ChangePost", new { page = 1, searchString = ViewBag.SearchString })" aria-label="First">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                                <a class="page-link" href="@Url.Action("ChangePost", new { page = Model.PageNumber - 1, searchString = ViewBag.SearchString })" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            @for (int pageNumber = 1; pageNumber <= Model.PageCount; pageNumber++)
+                            {
+                                <li class="page-item @(pageNumber == Model.PageNumber ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("ChangePost", new { page = pageNumber, searchString = ViewBag.SearchString })">@pageNumber</a>
+                                </li>
+                            }
+                            <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                                <a class="page-link" href="@Url.Action("ChangePost", new { page = Model.PageNumber + 1, searchString = ViewBag.SearchString })" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                                <a class="page-link" href="@Url.Action("ChangePost", new { page = Model.PageCount, searchString = ViewBag.SearchString })" aria-label="Last">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+
+            <div class="col-lg-6">
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
+        }
+        else
+        {
+            <div class="col-lg-12">
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
+        }
+    </div>
+</div>
+

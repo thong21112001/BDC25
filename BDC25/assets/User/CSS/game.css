@@ -1,0 +1,85 @@
+﻿body {
+    font-size: 14px;
+    font-weight: 400;
+    background-color: var(--bs-body-bg);
+    color: #a5a5a5;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    line-height: 1.5;
+    text-align: left;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.main {
+    margin: 20px 0;
+}
+
+.link-url {
+    margin-top: 10px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.link-url span {
+    color: #3398d4;
+}
+
+.link-url a {
+    text-decoration: none;
+    padding: 0 5px;
+    color: #3398d4;
+    font-weight: 500;
+}
+
+.link-url a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+/* ==========Home-7============= */
+.container-home-seven {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.container-slide-seven {
+    margin-top: 0;
+    width: 100%;
+    height: auto;
+    transition: 1s ease-in-out;
+    position: relative;
+}
+
+.slide-home-seven {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    z-index: 2;
+    background-color: #ffff;
+    position: relative;
+    overflow: hidden;
+}
+    .slide-home-seven .game .game_title {
+        color: black;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+/* ==========Home-7============= */

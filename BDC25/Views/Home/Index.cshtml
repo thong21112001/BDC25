@@ -1,0 +1,322 @@
+﻿@using Model.EF;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BDC25DbContext db = new BDC25DbContext();
+    var listKienThuc = (List<Model.EF.NEWS>)ViewBag.ListNewsKienThuc;
+    var listChiaSe = (List<Model.EF.NEWS>)ViewBag.ListNewsChiaSe;
+    var listCuuHo = (List<Model.EF.NEWS>)ViewBag.ListNewsCuuHo;
+    var listPostUser = (List<Model.EF.COMMUNITY>)ViewBag.ListPostUser;
+    string GetPostUrl = ViewBag.GetUrl;
+
+    var urlCase = "/danh-muc/" + GetPostUrl + "-" + 2;
+}
+
+@section slide{
+    <!-- Home-1 -->
+    <div class="container-home-page">
+        <div class="container-slide-page">
+            <i onclick="plusSlides(-1)" class="fa-solid fa-caret-left btn-directional"></i>
+            <div class="slide-background">
+                <div class="images-slide-background active">
+                    <img src="~/assets/User/img/bg-1.jpg" alt="">
+                    <div class="info-images">
+                        <h3>ĐĂNG KÝ THAM GIA CỘNG ĐỒNG BDC25</h3>
+                        <a href="/dang-ky" class="btn-images">Đăng ký</a>
+
+                    </div>
+                </div>
+                <div class="images-slide-background ">
+                    <img src="~/assets/User/img/bg2.jpg" alt="">
+                    <div class="info-images">
+                        <h3>SỰ KIỆN CỦA CỘNG ĐỒNG BDC25</h3>
+                        <a href="#" class="btn-images">Xem ngay</a>
+                    </div>
+                </div>
+                <div class="images-slide-background ">
+                    <img src="~/assets/User/img/bg3.jpg" alt="">
+                    <div class="info-images">
+                        <h3>QUYÊN GÓP - ỦNG HỘ HỘI</h3>
+                        <a href="/ung-ho" class="btn-images">Ủng hộ</a>
+                    </div>
+                </div>
+            </div>
+            <i onclick="plusSlides(1)" class="fa-solid fa-caret-right btn-directional"></i>
+        </div>
+    </div>
+}
+
+@section slideEndFoo{
+    <div class="slide-facebook">
+        <div class="slide-facebook_btop">
+            <img class="img-on-bot" src="~/assets/User/img/backtop.png" alt="">
+        </div>
+
+        <div class="chatbot">
+            <div class="chatbot__header">
+                <div class="title_chatbot">
+                    <p>BOT</p>
+                </div>
+                <div class="Icon" id="toogle-chat">
+                    <i class="fa-regular fa-comment"></i>
+                </div>
+            </div>
+
+            <main class="body_chatbot Input_answer chat-log">
+                <div id="response" class="message">
+                    <div class="message-text">Xin chào! Tôi là chatbot từ BDC25. Cần tôi giúp gì?</div>
+                </div>
+                <div id="response" class="message">
+                    <div class="message-text" style="color:brown;">Từ khóa: ủng hộ, giải trí, kinh nghiệm, video, cộng đồng</div>
+                </div>
+            </main>
+
+            <div class="user-input Input_question">
+
+                @using (Html.BeginForm("Messages", "Bot", FormMethod.Post, new { id = "botForm" }))
+                {
+                    <input type="text" class="chat-input" name="userMessage" />
+                    <button type="submit" class="chat-submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M24 0l-6 22-8.129-7.239 7.802-8.234-10.458 7.227-7.215-1.754 24-12zm-15 16.668v7.332l3.258-4.431-3.258-2.901z" />
+                        </svg>
+                    </button>
+                  }
+            </div>
+        </div>
+    </div>
+
+
+}
+
+@section scrFile{
+    <script src="~/assets/User/JS/script1.js"></script>
+    <script src="~/assets/User/JS/typeJS.js"></script>
+    <script src="~/assets/User/JS/app.js"></script>
+    <script src="~/assets/User/JS/bot.js"></script>
+    <script>
+        var chatLog = document.querySelector('.chat-log');
+        var userInput = document.querySelector('.user-input input');
+        var sendButton = document.querySelector('.user-input button');
+
+        $('#botForm').submit(function (event) {
+            event.preventDefault();
+            var userMessage = $('input[name="userMessage"]').val();
+            $.post('/Bot/Messages', { userMessage: userMessage }, function (response) {
+                appendMessage(userMessage, 'user');
+                var botMessage = response;
+                appendMessage(botMessage, 'bot');
+                userInput.value = '';
+            });
+        });
+
+        function appendMessage(message, sender) {
+            var messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+            messageElement.textContent = message;
+            chatLog.appendChild(messageElement);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+    </script>
+}
+
+<!-- home-3 -->
+<div class="container-home-three">
+    <div class="content-support">
+        <a href="/ung-ho">
+            <img src="~/assets/User/img/img-support.png" alt="">
+        </a>
+        <h2>Ủng hộ - Gây quỷ</h2>
+    </div>
+    <div class="content-support">
+        <a href="/cong-dong">
+            <img src="~/assets/User/img/img-search.png" alt="">
+        </a>
+        <h2>Cộng đồng chia sẻ BDC 25</h2>
+    </div>
+    <div class="content-support">
+        <a href="@urlCase">
+            <img src="~/assets/User/img/img-case.png" alt="">
+        </a>
+        <h2>các case - cứu hộ</h2>
+    </div>
+</div>
+<!-- Home-4 -->
+<div class="container-home-four">
+    <div class="title-home-four">
+        <h2>NỔI BẬT TRONG NGÀY</h2>
+        <h3>BÀI VIẾT TRONG CỘNG ĐỒNG BDC25</h3>
+    </div>
+    <div class="container-items-four">
+        @foreach (var item in listPostUser)
+        {
+            //listComPost
+            var PostDetailsUrl = "/chi-tiet-bai-viet-cong-dong/" + item.UrlTitle + "-" + item.IDCommunity;
+            var loai = db.TAGS_COMMUNITY.Find(item.IDTagsCommunity);
+            var us = db.USERWEBs.Find(item.IDUser);
+
+            <div class="item-home">
+                <p class="p_Top">NỔI BẬT</p>
+                <div class="item-img">
+                    <a href="@PostDetailsUrl"><img src="@Url.Content(item.Image)" alt=""></a>
+                </div>
+                <div class="content-item">
+                    <h2><a href="@PostDetailsUrl">@item.TieuDe</a></h2>
+                    <p class="p_TomTat">@item.TomTat</p>
+                    <div class="info-item">
+                        <span class="gt"><i class="fa fa-user" aria-hidden="true"></i>Người đăng:<b><a href="/thong-tin-ca-nhan/@us.TaiKhoan">@us.TaiKhoan</a></b></span>
+                        <span class="dt"><i class="fa fa-clock" aria-hidden="true"></i>Thời gian:<b>@string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayTao)</b></span>
+                        <span class="ts"><i class="fa fa-tag" aria-hidden="true"></i>Thẻ:<b>@loai.Ten</b></span>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+</div>
+<!-- Home-5 -->
+<div class="container-home-five">
+    <div class="content-home-five">
+        <img src="~/assets/User/img/icon1.png" alt="">
+        <h1>1000<i class="fa-solid fa-plus"></i></h1>
+        <h2>các trường hợp đã cứu hộ</h2>
+    </div>
+    <div class="content-home-five">
+        <img src="~/assets/User/img/icon2.png" alt="">
+        <h1>680<i class="fa-solid fa-plus"></i></h1>
+        <h2>các trường hợp đã đi chủ</h2>
+    </div>
+    <div class="content-home-five">
+        <img src="~/assets/User/img/icon4.png" alt="">
+        <h1>20<i class="fa-solid fa-plus"></i></h1>
+        <h2>các trường hợp đang điều trị</h2>
+    </div>
+</div>
+<!-- Home-6 -->
+<div class="container-home-six">
+    <div class="title-home-six">
+        <h2>Kiến thức</h2>
+        <h3>Tìm hiểu thú cưng</h3>
+        <h4>
+            Chia sẻ, tuyên truyền những kiến thức về thú cưng được nuôi trong gia đình, hy vọng sẽ đem đến những
+            thông
+            tin bổ ích cho mọi người.
+        </h4>
+    </div>
+    <div class="content-slide-six">
+        <div class="btn-slide-six">
+            <button class="demo active-gray" onclick="currentDiv(1)">Kiến Thức</button>
+            <button class="demo" onclick="currentDiv(2)">Chia Sẻ</button>
+        </div>
+        @*Kiến thức*@
+        <div class="title-slide-six">
+            <div class="title-left">
+                <div class="img-title-six">
+                    <img src="~/assets/User/img/img-left-6.jpg" alt="">
+                </div>
+                <div class="content-six">
+                    <h2>CHÓ MÈO HOANG NƯƠNG NHỜ CỬA PHẬT, VẪN LÀ CHUYỆN NÃO NỀ</h2>
+                    <h4>
+                        Thi thoảng chúng ta vẫn thấy trong một ngôi chùa sẽ có những con chó, con mèo nằm, ngồi thẫn thờ
+                        nơi góc sân.
+                    </h4>
+                </div>
+            </div>
+            <div class="title-right">
+                @foreach (var item in listKienThuc)
+                {
+                    var loai = db.CATEGORY_NEWS.Find(item.IDCateNews);
+                    var url = loai.UrlTitle + "/" + item.UrlTitle + "-" + item.IDNews;
+                    <div class="items-title-right">
+                        <div class="img-right">
+                            <a href="@url"><img src="@Url.Content(item.Image)"></a>
+                        </div>
+                        <div class="message-right">
+                            <h2>@item.TieuDe</h2>
+                            <h4>
+                                @item.TomTat
+                            </h4>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        @*Chia Sẽ*@
+        <div class="title-slide-six">
+            <div class="title-left">
+                <div class="img-title-six">
+                    <img src="~/assets/User/img/img-left-6.jpg" alt="">
+                </div>
+                <div class="content-six">
+                    <h2>CHÓ MÈO HOANG NƯƠNG NHỜ CỬA PHẬT, VẪN LÀ CHUYỆN NÃO NỀ</h2>
+                    <h4>
+                        Thi thoảng chúng ta vẫn thấy trong một ngôi chùa sẽ có những con chó, con mèo nằm, ngồi thẫn thờ
+                        nơi góc sân.
+                    </h4>
+                </div>
+            </div>
+            <div class="title-right">
+                @foreach (var item in listChiaSe)
+                {
+                    var loai = db.CATEGORY_NEWS.Find(item.IDCateNews);
+                    var url = loai.UrlTitle + "/" + item.UrlTitle + "-" + item.IDNews;
+                    <div class="items-title-right">
+                        <div class="img-right">
+                            <a href="@url"><img width="100" height="100" src="@Url.Content(item.Image)"></a>
+                        </div>
+                        <div class="message-right">
+                            <h2>@item.TieuDe</h2>
+                            <h4>
+                                @item.TomTat
+                            </h4>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Home-7 -->
+<div class="container-home-seven">
+    <div class="title-home-seven">
+        <h2>Cứu hộ</h2>
+        <h3>Các case cứu hộ tiêu biểu</h3>
+        <a href="@urlCase" class="button">Xem thêm <i class="fa-solid fa-paw"></i></a>
+    </div>
+    <div class="container-slide-seven">
+        <div class="slide-home-seven">
+            @foreach (var item in listCuuHo)
+            {
+                var loai = db.CATEGORY_NEWS.Find(item.IDCateNews);
+                var NewsDetailsUrl = "/chi-tiet-bai-viet/" + item.UrlTitle + "-" + item.IDNews;
+                <div class="content-slide-seven">
+                    <div class="img-slide-seven">
+                        <a href="@NewsDetailsUrl">
+                            <img src="@Url.Content(item.Image)" alt="">
+                        </a>
+                    </div>
+                    <div class="content-seven">
+                        <p class="days-seven">@string.Format("{0:dd-MM-yyyy}", @item.NgayTao)</p>
+                        <a href="@NewsDetailsUrl">
+                            <h2 class="name-seven">@item.TieuDe</h2>
+                        </a>
+                        <h3 class="title-seven">
+                            @item.TomTat
+                        </h3>
+                        <a href="@NewsDetailsUrl" class="button">CHI TIẾT <i class="fa-solid fa-paw paw-seven"></i></a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="dots-slide-seven">
+        <span class="dots-seven active" onclick="currentSlides(1)"></span>
+        <span class="dots-seven" onclick="currentSlides(2)"></span>
+        <span class="dots-seven" onclick="currentSlides(3)"></span>
+    </div>
+</div>
+
+

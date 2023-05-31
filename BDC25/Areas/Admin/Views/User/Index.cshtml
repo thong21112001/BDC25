@@ -1,0 +1,112 @@
+﻿@model PagedList.IPagedList<Model.EF.USERWEB>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Danh sách người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int stt = 0;
+}
+
+@section header{
+    <div class="d-flex justify-content-between">
+        <div>
+            Danh sách người dùng
+        </div>
+
+        @using (Html.BeginForm("Index", "User", FormMethod.Get))
+        {
+            <div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                    <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control bg-light border-0 small" placeholder="Tìm kiếm..."
+                           aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@section jsFooter{
+    <script src="~/assets/Admin/js/controller/UserController.js"></script>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tài khoản</th>
+            <th scope="col">Họ tên</th>
+            <th scope="col">Email</th>
+            <th scope="col">Điện thoại</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col">Số lần khóa</th>
+            <th scope="col">Chức năng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)    //Model đại dienj cho CATEGORY_NEWS
+        {
+            stt++;
+            <tr id="row_@item.IDUser">
+                <td>@stt</td>
+                <td>@item.TaiKhoan</td>
+                <td>@item.HoTen</td>
+                <td>@item.Email</td>
+                <td>@item.DienThoai</td>
+                <td><a href="#" class="btn btn-info btn-active" data-id="@item.IDUser">@(item.AnHien?"Hoạt động":"Khóa")</a></td>
+                <td>@item.SoLanKhoa</td>
+                <td>
+                    @*Đường dẫn (User/Edit or User/Delete) -> View/Controller*@
+                    <a class="btn btn-primary" href="/Admin/User/Details/@item.IDUser">Chi tiết</a>
+                    @Ajax.ActionLink("Xóa", "Delete", new { @id = item.IDUser }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn xóa trường: " + item.TaiKhoan + " có ID = " + item.IDUser,
+                   OnComplete = "$('#row_" + @item.IDUser + "').remove()",
+                   HttpMethod = "Delete"
+               }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.TotalItemCount > 0)
+{
+    <div class="pagination-wrapper">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = 1, searchString = ViewBag.SearchString })" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1, searchString = ViewBag.SearchString })" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                @for (int pageNumber = 1; pageNumber <= Model.PageCount; pageNumber++)
+                {
+                    <li class="page-item @(pageNumber == Model.PageNumber ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = pageNumber, searchString = ViewBag.SearchString })">@pageNumber</a>
+                    </li>
+                }
+                <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber + 1, searchString = ViewBag.SearchString })" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageCount, searchString = ViewBag.SearchString })" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}
+

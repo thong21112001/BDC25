@@ -1,0 +1,97 @@
+﻿@model List<Model.EF.COMMUNITY>
+@using Model.EF;
+
+@{
+    BDC25DbContext db = new BDC25DbContext();
+
+}
+
+@foreach (var item in Model)
+{
+    var postUS = db.COMMUNITies.Find(item.IDCommunity);
+    int countCmtRep = db.COMMENTs.Where(x => x.IDCommunity == item.IDCommunity && x.AnHien == true).Count();  // lấy các bình luận chưa xóa
+
+    List<COMMENT_REPLY> countRep = (from rep in db.COMMENT_REPLY
+                                    join idC in db.COMMENTs on rep.IDComment equals idC.IDComment
+                                    join c in db.COMMUNITies on idC.IDCommunity equals c.IDCommunity
+                                    where (c.AnHien == true && c.IDCommunity == item.IDCommunity && c.IDCommunity == idC.IDCommunity && idC.IDComment == rep.IDComment &&
+                                            idC.AnHien == true && rep.AnHien == true)
+                                    select rep
+                                    ).ToList();
+
+    int countCmtReply = countRep.Count();
+
+    int allCMT = countCmtRep + countCmtReply;
+
+    //listComPost
+    var PostDetailsUrl = "/chi-tiet-bai-viet-cong-dong/" + item.UrlTitle + "-" + item.IDCommunity;
+    var loaiUs = db.USERWEBs.Find(item.IDUser);
+    var nameTag = db.TAGS_COMMUNITY.Find(item.IDTagsCommunity);
+
+    <div class="item_content content">
+        <div class="content_col">
+            <a href="@PostDetailsUrl">
+                <div class="content_img">
+                    @if (item.Image != null)
+                    {
+                        <img src="@Url.Content(item.Image)">
+                    }
+                </div>
+            </a>
+
+
+            <div class="content_content">
+                <a href="@PostDetailsUrl">
+                    <div class="title_content">
+                        @if (item.TieuDe != null)
+                        {
+                            <h3>@item.TieuDe</h3>
+                        }
+                        <span>
+                            @item.TomTat
+                        </span>
+                    </div>
+                </a>
+
+                <div class="user_post">
+                    <a href="/thong-tin-ca-nhan/@loaiUs.TaiKhoan">
+                        <div class="userImg">
+                            @if (loaiUs.Image != null)
+                            {
+                                <img src="@Url.Content(loaiUs.Image)" alt="">
+                            }
+                            else
+                            {
+                                <img src="~/assets/User/img/userTest.png" />
+                            }
+                        </div>
+                    </a>
+
+                    <div class="timePost">
+                        <h4><a href="/thong-tin-ca-nhan/@loaiUs.TaiKhoan">@loaiUs.TaiKhoan</a></h4>
+
+                        @if (item.NgayTao != null)
+                        {
+                            <span>@string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayTao)</span>
+                        }
+                        else
+                        {
+                            <span>Chưa cập nhập thời gian</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="chooseCmt">
+                    <div class="left">
+                        <h5>Thẻ : <span>@nameTag.Ten</span></h5>
+                    </div>
+
+                    <div class="right">
+                        <span class="choose"><i class="fa fa-heart" aria-hidden="true"></i> @item.DanhGia</span>
+                        <span class="cmt"><i class="fa fa-comments" aria-hidden="true"></i> @allCMT</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

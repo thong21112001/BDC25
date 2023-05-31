@@ -1,0 +1,28 @@
+﻿.container-postNew {
+    width: 100%;
+    padding: 20px 200px;
+}
+
+    .container-postNew .title-post {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+        .container-postNew .title-post span {
+            font-size: 20px;
+            font-weight: 500;
+            color: #3398d4;
+            text-transform: uppercase;
+        }
+
+    .container-postNew .row-content-post {
+        padding: 10px
+    }
+
+        .container-postNew .row-content-post .label-title {
+            font-size: 16px;
+            font-weight: 700;
+        }

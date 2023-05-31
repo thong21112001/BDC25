@@ -1,0 +1,167 @@
+﻿@model PagedList.IPagedList<Model.EF.COMMENT>
+@using PagedList.Mvc;
+@using Model.EF;
+@using PagedList;
+@{
+    ViewBag.Title = "Danh sách bình luận";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    BDC25DbContext db = new BDC25DbContext();
+    List<TAGS_COMMUNITY> listTag = db.TAGS_COMMUNITY.ToList();
+    int stt = 0;
+}
+
+@section header{
+    <div class="row">
+        <div class="col-lg-12 d-flex justify-content-between">
+            <div class="col-md-4">
+                Danh sách bình luận user
+            </div>
+
+            <div class="col-md-4">
+                <div class="row">
+                    @using (Html.BeginForm("Index", "Report", FormMethod.Get))
+                    {
+                        <div class="col-lg-12 d-flex justify-content-between">
+                            <div class="col-md-8">
+                                <select name="idLoaiDM" class="form-control">
+                                    <option>Tất cả</option>
+                                    @foreach (var item in listTag)
+                                    {
+                                        if (item.AnHien == true)
+                                        {
+                                            <option value="@item.IDTagsCommunity" @Html.Raw(item.IDTagsCommunity == ViewBag.idLoaiDM ? "selected" : "")>@item.Ten</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-success">Tìm</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                @using (Html.BeginForm("Index", "Report", FormMethod.Get))
+                {
+                    <div class="ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control bg-light border-0 small" placeholder="Tìm kiếm theo tên tài khoản..."
+                                   aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Nội dung</th>
+            <th scope="col">Tên bài viết | ID</th>
+            <th scope="col">Tài khoản | ID</th>
+            <th scope="col">Báo cáo</th>
+            <th scope="col">Chức năng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)    //Model đại dienj cho NEWS
+        {
+            stt++;
+            <tr id="row_@item.IDComment">
+                <td>@stt</td>
+                <td>@item.NoiDung</td>
+                <td>
+                    @{
+                        var loai = db.COMMUNITies.Find(item.IDCommunity);
+                        if (loai != null)
+                        {
+                            <span>@loai.TieuDe | @loai.IDCommunity</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        var us = db.USERWEBs.Find(item.IDUser);
+                        if (us != null)
+                        {
+                            <span>@us.TaiKhoan | @us.IDUser</span>
+                        }
+                    }
+                </td>
+                <td>@(item.IsReport?"Báo cáo":"Không")</td>
+                <td>
+                    @Ajax.ActionLink("Xóa", "Delete", new { @id = item.IDComment }, new AjaxOptions
+                       {
+                           Confirm = "Bạn có muốn xóa trường: " + item.NoiDung + " có ID = " + item.IDComment,
+                           OnComplete = "$('#row_" + @item.IDComment + "').remove()",
+                           HttpMethod = "Delete"
+                       }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-uppercase">
+    @if (Model.TotalItemCount > 0)
+    {
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="pagination-wrapper">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = 1, searchString = ViewBag.SearchString })" aria-label="First">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1, searchString = ViewBag.SearchString })" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            @for (int pageNumber = 1; pageNumber <= Model.PageCount; pageNumber++)
+                            {
+                                <li class="page-item @(pageNumber == Model.PageNumber ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Index", new { page = pageNumber, searchString = ViewBag.SearchString })">@pageNumber</a>
+                                </li>
+                            }
+                            <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber + 1, searchString = ViewBag.SearchString })" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = Model.PageCount, searchString = ViewBag.SearchString })" aria-label="Last">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+
+            <div class="col-lg-6">
+                @Html.ActionLink("Các bình luận bị báo cáo", "DelCmt", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-lg-12">
+            @Html.ActionLink("Các bình luận bị báo cáo", "DelCmt", null, new { @class = "btn btn-primary" })
+        </div>
+    }
+</div>

@@ -1,0 +1,208 @@
+﻿@model Model.EF.USERWEB
+@using Model.EF;
+
+@{
+    ViewBag.Title = "Chi tiết người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    BDC25DbContext db = new BDC25DbContext();
+    var loai = db.USERWEBs.Find(ViewBag.IDUserAD);
+}
+
+@section header{
+    <div class="row">
+        <div class="col-lg-12 d-flex">
+            <div class="form-group col-md-4">
+                Thông tin người dùng
+            </div>
+
+            <div class="form-group col-md-8  d-flex justify-content-end">
+                <h5>@Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })</h5>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <hr />
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Tài khoản</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @Html.DisplayFor(model => model.TaiKhoan)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Họ và Tên</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @Html.DisplayFor(model => model.HoTen)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Email</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @Html.DisplayFor(model => model.Email)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Địa chỉ</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @Html.DisplayFor(model => model.DiaChi)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Số điện thoại</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @Html.DisplayFor(model => model.DienThoai)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Ngày tạo tài khoản</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @if (@loai.NgayTao != null)
+                    {
+                        <span>@string.Format("{0:dd/MM/yyyy HH:mm}", @loai.NgayTao)</span>
+                    }
+                    else
+                    {
+                        <span>Chưa có thông tin</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Ngày sửa tài khoản</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @if (@loai.NgaySua != null)
+                    {
+                        <span>@string.Format("{0:dd/MM/yyyy HH:mm}", @loai.NgaySua)</span>
+                    }
+                    else
+                    {
+                        <span>Chưa có thông tin</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Trạng thái</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    <span>@(loai.AnHien?"Hoạt động":"Khóa")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Ngày khóa</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @if (@loai.NgayKhoa != null)
+                    {
+                        <span>@string.Format("{0:dd/MM/yyyy HH:mm}", @loai.NgayKhoa)</span>
+                    }
+                    else
+                    {
+                        <span>Chưa có thông tin</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Ngày mở khóa</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @if (@loai.NgayMoKhoa != null)
+                    {
+                        <span>@string.Format("{0:dd/MM/yyyy HH:mm}", @loai.NgayMoKhoa)</span>
+                    }
+                    else
+                    {
+                        <span>Chưa có thông tin</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Số lần khóa</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @Html.DisplayFor(model => model.SoLanKhoa)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

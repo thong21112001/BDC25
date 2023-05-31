@@ -1,0 +1,136 @@
+﻿@model Model.EF.USERWEB
+@using Model.EF;
+
+@{
+    ViewBag.Title = "EditProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BDC25DbContext db = new BDC25DbContext();
+    var loai = db.USERWEBs.Find(ViewBag.IDUSer);
+}
+
+@section cssPage{
+    <link href="~/assets/User/CSS/editPro2.css" rel="stylesheet" />
+    <link href="~/assets/User/CSS/bootstrap.min.css" rel="stylesheet" />
+}
+
+@section slideEndFoo{
+    <div class="slide-facebook">
+        <div class="slide-facebook_btop">
+            <img class="img-on-bot" src="~/assets/User/img/backtop.png" alt="">
+        </div>
+    </div>
+}
+
+@section scrFile{
+    <script src="~/assets/User/JS/jquery-3.2.1.min.js"></script>
+    <script src="~/assets/User/JS/editprofile.js"></script>
+    <script src="~/assets/User/JS/Alert.js"></script>
+}
+
+
+<!-- Content -->
+<div class="page_content">
+    <div class="content_main">
+        <!-- Right Information -->
+        <div class="right">
+            <div class="tab">
+                <button class="tablinks active" onclick="openTab(event, 'ResetInfo')">Cập nhập thông tin</button>
+                <button class="tablinks" onclick="openTab(event, 'ResetPass')">Thay đổi mật khẩu</button>
+                <a href="/thong-tin-ca-nhan/@loai.TaiKhoan" class="button">Quay lại</a>
+            </div>
+
+            <div id="ResetInfo" class="tabcontent">
+                @if (TempData["AlertMessage"] != null)
+                {
+                    <div id="AlertBox" class="alert @TempData["AlertType"] hide" role="alert">
+                        @TempData["AlertMessage"]
+                    </div>
+                }
+                <h3>CẬP NHẬP THÔNG TIN CÁ NHÂN</h3>
+                @using (Html.BeginForm("EditProfile", "InfoUser", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.IDUser)
+
+                    <div class="tab_content">
+                        <div class="tab_content_title">
+                            <h4>Hình ảnh người dùng</h4>
+                            <input type='file' name="ImageUpload" onchange="ShowImage(this,document.getElementById('previewImg'))" accept=".png, .jpg, .jpeg" />
+                        </div>
+                        <div class="tab_content_img">
+                            <div class="avatar-upload">
+                                <div class="avatar-preview">
+                                    <div>
+                                        @if (Model.Image != null)
+                                        {
+                                            <img src="@Url.Content(Model.Image)" id="previewImg" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/assets/User/img/userTest.png" id="previewImg" />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab_content_main">
+                        <div class="tab_content_1">
+                            <div class="tab_content_label">
+                                <label for="">Họ và Tên</label>
+                            </div>
+                            <div class="tab_content_textbox">
+                                @Html.TextBoxFor(model => model.HoTen, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="tab_content_2">
+                            <div class="tab_content_label">
+                                <label for="">Địa chỉ</label>
+                            </div>
+                            <div class="tab_content_textbox">
+                                @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab_content_main">
+                        <div class="tab_content_1">
+                            <div class="tab_content_label">
+                                <label for="">Số điện thoại</label>
+                            </div>
+                            <div class="tab_content_textbox">
+                                @Html.TextBoxFor(model => model.DienThoai, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="tab_content_2">
+                            <div class="tab_content_label">
+                                <label for="">Email</label>
+                            </div>
+                            <div class="tab_content_textbox">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab_content_main">
+                        <input type="submit" value="Cập nhập" class="btn1" />
+                    </div>
+                }
+            </div>
+
+
+
+
+            <div id="ResetPass" class="tabcontent" style="display: none;">
+                @{
+                    Html.RenderPartial("PVUpdatePass");
+                }
+            </div>
+        </div>
+    </div>
+</div>

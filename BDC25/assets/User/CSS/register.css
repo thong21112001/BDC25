@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.container-register {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #455fc7;
+}
+
+.container-register .register {
+    width: 60%;
+    height: 82%;
+    background-color: aliceblue;
+    border-radius: 10px;
+    display: flex;
+    position: relative;
+}
+
+.register .imgRegister {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    border-radius: 10px 0 0px 10px;
+    background-size: 100% 100%;
+}
+
+.register .register-Input {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    right: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.register-Input .error {
+    height: 19px;
+    width: 295px;
+    color: red;
+}
+
+.register .register-Input .Input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.register-Input .Input h2 {
+    margin: 20px;
+}
+
+.register-Input .Input input {
+    border: 1px solid gray;
+    border-radius: 50px;
+    width: 300px;
+    padding: 8px 15px;
+    margin: 5px 0;
+    outline: none;
+}
+
+.register-Input .Input input:focus {
+    border: 1px solid black;
+}
+
+.register-Input .Input button {
+    margin-top: 5px;
+    border-radius: 50px;
+    width: 130px;
+    padding: 8px 15px;
+    height: 40px;
+    background-color: #2f59cda4;
+    color: #ffff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.5s;
+}
+
+.register-Input .Input button:hover {
+    background-color: #2F58CD;
+    transition: all 0.5s;
+}
+
+.register-Input .account {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-Input .account a {
+    text-decoration: none;
+    margin: 7px 0;
+    color: #166ba3;
+}
+
+.register-Input .account a:hover {
+    color: #47b1f7;
+}

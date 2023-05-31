@@ -1,0 +1,199 @@
+﻿@model Model.EF.COMMUNITY
+@using Model.EF;
+
+@{
+    ViewBag.Title = "Chi tiết bài viết cộng đồng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    BDC25DbContext db = new BDC25DbContext();
+    var loai = db.COMMUNITies.Find(ViewBag.IDPost);
+    var idCate = db.TAGS_COMMUNITY.Find(loai.IDTagsCommunity);
+    var idUser = db.USERWEBs.Find(loai.IDUser);
+}
+
+@section header{
+    <div class="row">
+        <div class="col-lg-12 d-flex">
+            <div class="form-group col-md-4">
+                Chi tiết bài viết cộng đồng
+            </div>
+
+            <div class="form-group col-md-8  d-flex justify-content-end">
+                <h5>@Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })</h5>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <hr />
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Tiêu đề bài viết</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @Html.DisplayFor(model => model.TieuDe)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Tóm tắt</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @Html.DisplayFor(model => model.TomTat)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Giới thiệu</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @Html.DisplayFor(model => model.GioiThieu)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Hình ảnh</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    <img src="@Url.Content(Model.Image)" width="300" height="300" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Nội dung bài viết</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @Html.Raw(Model.NoiDung)
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Ngày tạo</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @if (@loai.NgayTao != null)
+                    {
+                        <span>@string.Format("{0:dd/MM/yyyy HH:mm}", @loai.NgayTao)</span>
+                    }
+                    else
+                    {
+                        <span>Chưa có thông tin</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Ngày sửa</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @if (@loai.NgaySua != null)
+                    {
+                        <span>@string.Format("{0:dd/MM/yyyy HH:mm}", @loai.NgaySua)</span>
+                    }
+                    else
+                    {
+                        <span>Chưa có thông tin</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Trạng thái</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    <span>@(loai.AnHien?"Hiển thị":"Ẩn")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Số lượt thích</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    @Html.DisplayFor(model => model.DanhGia)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Tài khoản đăng bài</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    <span>@idUser.TaiKhoan</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-12 text-primary">Thẻ cộng đồng</label>
+                </div>
+
+                <div class="form-group col-md-10">
+                    <span>@idCate.Ten</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
