@@ -1,5 +1,6 @@
-## Table of contents
-* [General info](#general-info)
+## Technology used
+### Technology used in project:
+* [Javascript]
 * [Technologies](#JS,#ASP.NETMVC5)
 * [Setup](#setup)
 
