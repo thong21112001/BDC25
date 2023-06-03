@@ -16,8 +16,8 @@
  ```bash
  $ git clone https://github.com/thong21112001/BDC25.git
  ```
--> **Restore** file bak trong sql server rồi xóa file đó đi
--> Mở dự án bằng visual studio, xong chỉnh đường dẫn kết nối ở 2 thư mục **Model & BDC25**
+#### -> **Restore** file bak trong sql server rồi xóa file đó đi
+#### -> Mở dự án bằng visual studio, xong chỉnh đường dẫn kết nối ở 2 thư mục **Model & BDC25**
 
 ### Công nghệ
 <p align="left">
