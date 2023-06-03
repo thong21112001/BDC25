@@ -14,7 +14,7 @@
 ### Cài đặt
  **Clone** repository này:
    ```bash
-   $ git clone https://github.com/your-username/your-repository.git
+   $ git clone https://github.com/thong21112001/BDC25.git
    ```
    
    
