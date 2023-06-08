@@ -10,6 +10,7 @@
 - [Cài đặt](#cài-đặt)
 - [Công nghệ](#công-nghệ)
 - [Liên hệ](#liên-hệ)
+- [Lỗi](#lỗi)
 
 ### Cài đặt
  -> Clone repository này:
@@ -34,3 +35,6 @@
 ### Liên hệ
 * 🖥️  Facebook [Trần Quang Thông](https://www.facebook.com/quangthong211101)
 * ✉️  Email [quangthong211101@gmail.com](mailto:quangthong211101@gmail.com)
+
+### Lỗi
+* 🖥️  Google Drive tải folder này về chỉnh sửa đường dẫn sql rồi chạy [BDC25](https://drive.google.com/drive/folders/1FTmaa-A8aHCphzfoyK-oOoX4BpEUkrwz?usp=drive_link)
